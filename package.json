@@ -27,7 +27,7 @@
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
     "front": "BROWSER=none react-scripts start",
-    "front-build": "react-scripts build"
+    "front-build": "BROWSER=none react-scripts build"
   },
   "peerDependencies": {
     "react": "^16.13.1"
