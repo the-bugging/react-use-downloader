@@ -1,12 +1,12 @@
 {
-  "name": "react-use-download",
+  "name": "react-use-downloader",
   "version": "1.0.0",
   "description": "Creates a download handler with time elapsed",
   "author": "Olavo Parno",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/olavoparno/react-use-download.git"
+    "url": "git://github.com/olavoparno/react-use-downloader.git"
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",

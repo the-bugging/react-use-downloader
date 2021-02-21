@@ -1,10 +1,10 @@
-<img align="right" alt="traffic" src="https://pv-badge.herokuapp.com/total.svg?repo_id=olavoparno-react-use-download"/>
+<img align="right" alt="traffic" src="https://pv-badge.herokuapp.com/total.svg?repo_id=olavoparno-react-use-downloader"/>
 
-# react-use-download
+# react-use-downloader
 
 > Creates a download handler function and gives progress information.
 
-[![NPM](https://img.shields.io/npm/v/react-use-download.svg)](https://www.npmjs.com/package/react-use-download)
+[![NPM](https://img.shields.io/npm/v/react-use-downloader.svg)](https://www.npmjs.com/package/react-use-downloader)
 
 ---
 
@@ -27,7 +27,7 @@ TODO
 ## Install
 
 ```bash
-npm install --save react-use-download
+npm install --save react-use-downloader
 ```
 
 ---
@@ -36,7 +36,7 @@ npm install --save react-use-download
 
 ```jsx
 import React from "react";
-import useDownload from "react-use-download";
+import useDownload from "react-use-downloader";
 
 export default function App() {
   const { size, elapsed, percentage, download, error } = useDownload();
@@ -81,7 +81,7 @@ const { size, elapsed, percentage, download, error } = useDownload();
 
 ## License
 
-react-use-download is [MIT licensed](./LICENSE).
+react-use-downloader is [MIT licensed](./LICENSE).
 
 ---
 
