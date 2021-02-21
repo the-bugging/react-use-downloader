@@ -37,7 +37,7 @@ function useDownload() {
           .finally(() => {
             return clearInterval(interval);
           })
-          .catch(setError);
+          .catch((err) => setError(() => err));
       }
 
       startDownload();

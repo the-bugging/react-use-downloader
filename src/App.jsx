@@ -17,16 +17,8 @@ const useStyles = makeStyles({
 function App() {
   const classes = useStyles();
   const { elapsed, percentage, size, download, error } = useDownload();
-  const {
-    elapsed: elapsedBig,
-    percentage: percentageBig,
-    download: downloadBig,
-    size: sizeBig,
-    error: errorBig,
-  } = useDownload();
 
-  const smallFileUrl = '/api/backend?size=small';
-  const largeFileUrl = '/api/backend?size=big';
+  const smallFileUrl = '/api/backend';
 
   return (
     <>
@@ -45,17 +37,6 @@ function App() {
         {error && <p>Something went wrong {JSON.stringify(error)}</p>}
         <br />
         <br />
-        <button
-          type="button"
-          onClick={() => downloadBig(largeFileUrl, 'large file')}
-        >
-          Click to download large size file
-        </button>
-        <p>
-          Progress Bigh percentage of {percentageBig} time passed of{' '}
-          {elapsedBig} and size of {sizeBig}
-        </p>
-        {errorBig && <p>Something went wrong {JSON.stringify(errorBig)}</p>}
       </Container>
     </>
   );
