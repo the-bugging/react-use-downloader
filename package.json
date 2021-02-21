@@ -25,9 +25,7 @@
     "build": "rollup -c",
     "start": "rollup -c -w",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
-    "front": "BROWSER=none react-scripts start",
-    "front-build": "BROWSER=none react-scripts build"
+    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
   },
   "peerDependencies": {
     "react": "^16.13.1"
@@ -54,22 +52,5 @@
     "rollup-plugin-peer-deps-external": "^2.2.3",
     "rollup-plugin-terser": "^7.0.0",
     "standard-version": "^8.0.2"
-  },
-  "dependencies": {
-    "@material-ui/core": "^4.11.3",
-    "axios": "^0.21.1",
-    "react-dom": "^17.0.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }
