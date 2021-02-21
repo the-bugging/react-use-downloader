@@ -14,7 +14,7 @@ function useDownload() {
       setElapsedTime(() => 0);
 
       function progress({ loaded, total }) {
-        const pct = `${Math.round((loaded / total) * 100)}%`;
+        const pct = Math.round((loaded / total) * 100);
 
         setTotalPct(() => pct);
       }
