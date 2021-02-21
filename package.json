@@ -25,7 +25,8 @@
     "build": "rollup -c",
     "start": "rollup -c -w",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}"
+    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
+    "release": "standard-version"
   },
   "peerDependencies": {
     "react": "^16.13.1"
