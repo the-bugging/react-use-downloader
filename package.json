@@ -1,0 +1,100 @@
+{
+  "name": "react-use-download",
+  "version": "1.0.0",
+  "description": "Creates a download handler with time elapsed",
+  "author": "Olavo Parno",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/olavoparno/react-use-download.git"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test && npm run make-badges && git add 'README.md'"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --fix src/**/*.{js,jsx,ts,tsx}"
+    ]
+  },
+  "scripts": {
+    "test": "CI=true react-scripts test --env=jsdom || true",
+    "test:watch": "react-scripts test --env=jsdom",
+    "prebuild": "rm -rf dist",
+    "build": "rollup -c",
+    "start": "rollup -c -w",
+    "prepare": "npm run build",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
+    "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
+    "make-badges": "echo ok",
+    "release": "standard-version",
+    "dev": "BROWSER=none react-scripts start"
+  },
+  "peerDependencies": {
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/runtime": "^7.11.2",
+    "@testing-library/react-hooks": "^3.4.1",
+    "@types/jest": "^26.0.9",
+    "@types/react": "^16.9.46",
+    "@types/react-dom": "^17.0.1",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-typescript-prettier": "^3.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "react": "^16.14.0",
+    "react-scripts": "^3.4.4",
+    "rollup": "^2.23.1",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.3",
+    "rollup-plugin-terser": "^7.0.0",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "standard-version": "^8.0.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@amaurymartiny/now-middleware": "^0.2.1",
+    "@material-ui/core": "^4.11.3",
+    "@vercel/node": "^1.9.0",
+    "axios": "^0.21.1",
+    "react-dom": "^17.0.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
