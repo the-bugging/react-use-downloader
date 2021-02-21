@@ -8,9 +8,9 @@
     "type": "git",
     "url": "git://github.com/olavoparno/react-use-download.git"
   },
-  "main": "build/index.js",
-  "module": "build/index.es.js",
-  "jsnext:main": "build/index.es.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -18,15 +18,16 @@
   "files": [
     "LICENSE",
     "README.md",
-    "build/"
+    "dist/"
   ],
   "scripts": {
-    "prebuild": "rm -rf build",
+    "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "start": "rollup -c -w",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
-    "dev": "BROWSER=none react-scripts start"
+    "front": "BROWSER=none react-scripts start",
+    "front-build": "react-scripts build"
   },
   "peerDependencies": {
     "react": "^16.13.1"
