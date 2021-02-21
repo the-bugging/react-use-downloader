@@ -24,6 +24,7 @@
     "prebuild": "rm -rf dist",
     "build": "rollup -c",
     "start": "rollup -c -w",
+    "prepare": "npm run build",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
     "release": "standard-version"
