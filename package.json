@@ -20,27 +20,12 @@
     "README.md",
     "build/"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run test && npm run make-badges && git add 'README.md'"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix src/**/*.{js,jsx,ts,tsx}"
-    ]
-  },
   "scripts": {
-    "test": "CI=true react-scripts test --env=jsdom || true",
-    "test:watch": "react-scripts test --env=jsdom",
     "prebuild": "rm -rf build",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "prepare": "npm run build",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
     "lint": "eslint --fix src/**/*.{js,jsx,ts,tsx}",
-    "make-badges": "echo ok",
-    "release": "standard-version",
     "dev": "BROWSER=none react-scripts start"
   },
   "peerDependencies": {
@@ -58,7 +43,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
-    "husky": "^4.2.5",
     "prettier": "^2.0.5",
     "react": "^16.14.0",
     "react-scripts": "^3.4.4",
@@ -71,7 +55,6 @@
     "standard-version": "^8.0.2"
   },
   "dependencies": {
-    "@amaurymartiny/now-middleware": "^0.2.1",
     "@material-ui/core": "^4.11.3",
     "axios": "^0.21.1",
     "react-dom": "^17.0.1"
