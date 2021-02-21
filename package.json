@@ -8,9 +8,9 @@
     "type": "git",
     "url": "git://github.com/olavoparno/react-use-download.git"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "jsnext:main": "build/index.es.js",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -18,7 +18,7 @@
   "files": [
     "LICENSE",
     "README.md",
-    "dist/"
+    "build/"
   ],
   "husky": {
     "hooks": {
@@ -33,7 +33,7 @@
   "scripts": {
     "test": "CI=true react-scripts test --env=jsdom || true",
     "test:watch": "react-scripts test --env=jsdom",
-    "prebuild": "rm -rf dist",
+    "prebuild": "rm -rf build",
     "build": "rollup -c",
     "start": "rollup -c -w",
     "prepare": "npm run build",
