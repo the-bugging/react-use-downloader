@@ -1,11 +1,6 @@
-function downloadJs(
-  data: unknown,
-  filename: string,
-  mime?: string,
-  bom?: unknown
-): void {
+function downloadJs(data, filename, mime, bom) {
   const blobData = typeof bom !== 'undefined' ? [bom, data] : [data];
-  const blob = new Blob((blobData as unknown) as BlobPart[], {
+  const blob = new Blob(blobData, {
     type: mime || 'application/octet-stream',
   });
   if (typeof window.navigator.msSaveBlob !== 'undefined') {

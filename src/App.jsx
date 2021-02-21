@@ -14,10 +14,16 @@ const useStyles = makeStyles({
   },
 });
 
-function App(): JSX.Element {
+function App() {
   const classes = useStyles();
-  const [progressSmall, smallSize, handleDownloadSmall] = useDownload();
-  const [progressBig, bigSize, handleDownloadBig, error] = useDownload();
+  const { elapsed, percentage, size, download, error } = useDownload();
+  const {
+    elapsed: elapsedBig,
+    percentage: percentageBig,
+    download: downloadBig,
+    size: sizeBig,
+    error: errorBig,
+  } = useDownload();
 
   const smallFileUrl = '/api/backend?size=small';
   const largeFileUrl = '/api/backend?size=big';
@@ -28,25 +34,28 @@ function App(): JSX.Element {
       <Container className={classes.main} maxWidth="md">
         <button
           type="button"
-          onClick={() => handleDownloadSmall(smallFileUrl, 'small file')}
+          onClick={() => download(smallFileUrl, 'small file')}
         >
           Click to download small 50kb size file
         </button>
         <p>
-          Progress Small {progressSmall} of size {smallSize}
+          Progress Small percentage of {percentage} time passed of {elapsed} and
+          size of {size}
         </p>
+        {error && <p>Something went wrong {JSON.stringify(error)}</p>}
         <br />
         <br />
         <button
           type="button"
-          onClick={() => handleDownloadBig(largeFileUrl, 'large file')}
+          onClick={() => downloadBig(largeFileUrl, 'large file')}
         >
           Click to download large size file
         </button>
         <p>
-          Progress BIG {progressBig} of size {bigSize}
+          Progress Bigh percentage of {percentageBig} time passed of{' '}
+          {elapsedBig} and size of {sizeBig}
         </p>
-        {error && <p>Something went wrong {JSON.stringify(error)}</p>}
+        {errorBig && <p>Something went wrong {JSON.stringify(errorBig)}</p>}
       </Container>
     </>
   );

@@ -1,48 +1,34 @@
 import { useCallback, useMemo, useState } from 'react';
+import { resolver } from './fetch-progress';
 import jsDownload from './js-download';
-import ProgressReportFetcher from './fetch-progress';
 
-function updateDownloadProgress({ loaded, total }) {
-  if (!started) {
-    loader.classList.add('loading');
-    started = true;
-  }
-
-  // handle divide-by-zero edge case when Content-Length=0
-  pct = total ? loaded / total : 1;
-
-  progress.style.transform = `scaleX(${pct})`;
-  // console.log('downloaded', Math.round(pct*100)+'%')
-  if (loaded === total) {
-    console.log('download complete');
-  }
-}
-
-function useDownload(): readonly [
-  number,
-  number,
-  (downloadUrl: string, filename: string) => void,
-  null
-] {
+function useDownload() {
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [totalPct, setTotalPct] = useState(0);
   const [blobSize, setBlobSize] = useState(0);
   const [error, setError] = useState(null);
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
 
-  const fetcher = new ProgressReportFetcher(updateDownloadProgress);
-
   const handleDownload = useCallback(
     (downloadUrl, filename) => {
       setElapsedTime(() => 0);
+
+      function progress({ loaded, total }) {
+        const pct = `${Math.round((loaded / total) * 100)}%`;
+
+        setTotalPct(() => pct);
+      }
 
       function startDownload() {
         const interval = setInterval(
           () => setElapsedTime((prevValue) => prevValue + 1),
           debugMode ? 1 : 1000
         );
+        const resolverWithProgress = resolver(progress);
         return fetch(downloadUrl, {
           method: 'GET',
         })
+          .then(resolverWithProgress)
           .then((data) => data.blob())
           .then((response) => {
             setBlobSize(() => response.size);
@@ -51,7 +37,7 @@ function useDownload(): readonly [
           .finally(() => {
             return clearInterval(interval);
           })
-          .catch((err) => setError(err));
+          .catch(setError);
       }
 
       startDownload();
@@ -60,8 +46,14 @@ function useDownload(): readonly [
   );
 
   return useMemo(
-    () => [elapsedTime, blobSize, handleDownload, error] as const,
-    [elapsedTime, blobSize, handleDownload, error]
+    () => ({
+      elapsed: elapsedTime,
+      percentage: totalPct,
+      size: blobSize,
+      download: handleDownload,
+      error,
+    }),
+    [elapsedTime, totalPct, blobSize, handleDownload, error]
   );
 }
 

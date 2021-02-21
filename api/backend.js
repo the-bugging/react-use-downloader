@@ -14,6 +14,7 @@ const handler = (request, response) => {
   return fs.promises
     .readFile(chosenFile)
     .then((data) => {
+      response.setHeader('content-length', data.byteLength);
       response.writeHead(200);
       return response.end(data);
     })
