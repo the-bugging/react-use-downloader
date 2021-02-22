@@ -1,6 +1,11 @@
-export const resolver = (progress) => (response) => {
+export const resolver = ({
+  setSize,
+  setControllerCallback,
+  setPercentageCallback,
+  setErrorCallback,
+}) => (response) => {
   if (!response.ok) {
-    throw Error(`${response.status} ${response.statusText}`);
+    throw Error(`${response.status} ${response.type} ${response.statusText}`);
   }
 
   if (!response.body) {
@@ -13,34 +18,42 @@ export const resolver = (progress) => (response) => {
   );
 
   const total = parseInt(contentLength || 0, 10);
+
+  setSize(() => total);
+
   let loaded = 0;
 
-  return new Response(
-    new ReadableStream({
-      start(controller) {
-        const reader = response.body.getReader();
+  const stream = new ReadableStream({
+    start(controller) {
+      setControllerCallback(controller);
 
-        function read() {
-          reader
-            .read()
-            .then(({ done, value }) => {
-              if (done) {
-                controller.close();
-                return;
-              }
-              loaded += value.byteLength;
-              progress({ loaded, total });
-              controller.enqueue(value);
-              read();
-            })
-            .catch((error) => {
-              console.error(error);
-              controller.error(error);
-            });
-        }
+      const reader = response.body.getReader();
 
-        read();
-      },
-    })
-  );
+      function read() {
+        return reader
+          .read()
+          .then(({ done, value }) => {
+            if (done) {
+              return controller.close();
+            }
+
+            loaded += value.byteLength;
+
+            controller.enqueue(value);
+
+            setPercentageCallback({ loaded, total });
+
+            return read();
+          })
+          .catch((error) => {
+            setErrorCallback(error);
+            return controller.error(error);
+          });
+      }
+
+      return read();
+    },
+  });
+
+  return new Response(stream);
 };
