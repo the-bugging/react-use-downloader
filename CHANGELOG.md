@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/olavoparno/react-use-downloader/compare/v1.1.0...v1.1.1) (2021-02-22)
+
+
+### Bug Fixes
+
+* **project:** fix cancel and download progress ([27b82e5](https://github.com/olavoparno/react-use-downloader/commit/27b82e595fb106270925c033f1dd44a3737e9f99))
+
 ## [1.1.0](https://github.com/olavoparno/react-use-downloader/compare/v1.0.2...v1.1.0) (2021-02-22)
 
 
