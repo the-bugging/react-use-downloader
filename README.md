@@ -39,7 +39,7 @@ npm install --save react-use-downloader
 
 ```jsx
 import React from "react";
-import useDownload from "react-use-downloader";
+import useDownloader from "react-use-downloader";
 
 export default function App() {
   const {
@@ -50,7 +50,7 @@ export default function App() {
     cancel,
     error,
     isInProgress
-  } = useDownload();
+  } = useDownloader();
 
   const fileUrl = "https://olavoparno.github.io/saywololo/sounds/Wololo1.wav";
 
@@ -81,7 +81,7 @@ export default function App() {
 
 ## Documentation
 
-`useDownload()` returns:
+`useDownloader()` returns:
 
 - An object with the following keys:
 
@@ -103,7 +103,7 @@ const {
     cancel,
     error,
     isInProgress
-  } = useDownload();
+  } = useDownloader();
 ```
 
 ---

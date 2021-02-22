@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { resolver } from './fetch-progress';
 import jsDownload from './js-download';
 
-function useDownload() {
+function useDownloader() {
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
 
   const [elapsed, setElapsed] = useState(0);
@@ -133,4 +133,4 @@ function useDownload() {
   );
 }
 
-export default useDownload;
+export default useDownloader;
