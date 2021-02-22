@@ -20,7 +20,10 @@
 
 ## Running example
 
-TODO
+| Plain                           |
+| ------------------------------- |
+| ![Example](./assets/readme.gif) |
+| [Preview!](https://codesandbox.io/s/react-use-downloader-0zzoq) |
 
 ---
 
