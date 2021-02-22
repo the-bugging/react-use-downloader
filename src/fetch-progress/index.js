@@ -47,6 +47,7 @@ export const resolver = ({
           })
           .catch((error) => {
             setErrorCallback(error);
+            reader.cancel('Cancelled');
             return controller.error(error);
           });
       }

@@ -54,11 +54,11 @@ function useDownload() {
 
   const handleDownload = useCallback(
     (downloadUrl, filename) => {
-      clearAllStateCallback();
-      setError(() => null);
-      setIsInProgress(() => true);
-
       function startDownload() {
+        clearAllStateCallback();
+        setError(() => null);
+        setIsInProgress(() => true);
+
         const interval = setInterval(
           () => setElapsed((prevValue) => prevValue + 1),
           debugMode ? 1 : 1000
@@ -97,9 +97,12 @@ function useDownload() {
           });
       }
 
-      startDownload();
+      if (!isInProgress) {
+        startDownload();
+      }
     },
     [
+      isInProgress,
       clearAllStateCallback,
       debugMode,
       setControllerCallback,
