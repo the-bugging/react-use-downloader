@@ -1,37 +1,114 @@
-## Welcome to GitHub Pages
+<img align="right" alt="traffic" src="https://pv-badge.herokuapp.com/total.svg?repo_id=olavoparno-react-use-downloader"/>
 
-You can use the [editor on GitHub](https://github.com/olavoparno/react-use-downloader/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+# react-use-downloader
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+> Creates a download handler function with its progress information and cancel ability.
 
-### Markdown
+[![NPM](https://img.shields.io/npm/v/react-use-downloader.svg)](https://www.npmjs.com/package/react-use-downloader)
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+---
 
-```markdown
-Syntax highlighted code block
+## Table of Contents
 
-# Header 1
-## Header 2
-### Header 3
+- [Running example](#running-example)
+- [Install](#install)
+- [Usage](#usage)
+- [Documentation](#documentation)
+- [License](#license)
 
-- Bulleted
-- List
+---
 
-1. Numbered
-2. List
+## Running example
 
-**Bold** and _Italic_ and `Code` text
+| Plain                           |
+| ------------------------------- |
+| ![Example](../assets/readme.gif) |
+| [Preview!](https://codesandbox.io/s/react-use-downloader-0zzoq) |
 
-[Link](url) and ![Image](src)
+---
+
+## Install
+
+```bash
+npm install --save react-use-downloader
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+---
 
-### Jekyll Themes
+## Usage
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/olavoparno/react-use-downloader/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```jsx
+import React from "react";
+import useDownloader from "react-use-downloader";
 
-### Support or Contact
+export default function App() {
+  const {
+    size,
+    elapsed,
+    percentage,
+    download,
+    cancel,
+    error,
+    isInProgress
+  } = useDownloader();
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+  const fileUrl = "https://olavoparno.github.io/saywololo/sounds/Wololo1.wav";
+
+  return (
+    <div className="App">
+      <p>Download is in {isInProgress ? 'in progress' : 'stopped'}</p>
+      <button onClick={() => download(fileUrl, "filename")}>
+        Click to download the file
+      </button>
+      <button onClick={() => cancel()}>Cancel the download</button>
+      <p>
+        Download size in bytes {size}
+      </p>
+      <label for="file">Downloading progress:</label>
+      <progress id="file" value={percentage} max="100" />
+      <p>Elapsed time in seconds {elapsed}</p>
+      {error && <p>possible error {JSON.stringify(error)}</p>}
+    </div>
+  );
+}
+```
+
+---
+
+## Documentation
+
+`useDownloader()` returns:
+
+- An object with the following keys:
+
+| key          | description                      | arguments                               |
+| ------------ | -------------------------------- | --------------------------------------- |
+| size         | size in bytes                    | n/a                                     |
+| elapsed      | elapsed time in seconds          | n/a                                     |
+| percentage   | percentage in string             | n/a                                     |
+| download     | download function handler        | (downloadUrl: string, filename: string) |
+| cancel       | cancel function handler          | n/a                                     |
+| error        | error object from the request    | n/a                                     |
+| isInProgress | boolean denoting download status | n/a                                     |
+
+```jsx
+const {
+    size,
+    elapsed,
+    percentage,
+    download,
+    cancel,
+    error,
+    isInProgress
+  } = useDownloader();
+```
+
+---
+
+## License
+
+react-use-downloader is [MIT licensed](./LICENSE).
+
+---
+
+This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).
