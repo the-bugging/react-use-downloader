@@ -56,21 +56,17 @@ export default function App() {
 
   return (
     <div className="App">
-      {isInProgress ? (
-        <p>Download is in progress</p>
-      ) : (
-        <p>Download is stopped</p>
-      )}
-      <button onClick={() => download(fileUrl, "file")}>
-        Click to download file
+      <p>Download is in {isInProgress ? 'in progress' : 'stopped'}</p>
+      <button onClick={() => download(fileUrl, "filename")}>
+        Click to download the file
       </button>
-      <span> </span>
-      <button onClick={() => cancel()}>Cancel</button>
+      <button onClick={() => cancel()}>Cancel the download</button>
       <p>
-        Download size {size} bytes and {percentage}%
+        Download size in bytes {size}
       </p>
-      <LinearProgress variant="determinate" value={percentage} />
-      <p>Elapsed time {elapsed}s</p>
+      <label for="file">Downloading progress:</label>
+      <progress id="file" value={percentage} max="100" />
+      <p>Elapsed time in seconds {elapsed}</p>
       {error && <p>possible error {JSON.stringify(error)}</p>}
     </div>
   );
@@ -85,14 +81,15 @@ export default function App() {
 
 - An object with the following keys:
 
-  1. size (size in bytes)
-  2. elapsed (in seconds)
-  3. percentage (a percentage string)
-  4. download (a download function handler)
-    - arguments, both as string: {downloadUrl, filename}
-  5. cancel (a cancel function)
-  6. error (an error object from the fetch request)
-  7. isInProgress (a boolean status wether it is downloading or not)
+| key          | description                      | arguments                               |
+| ------------ | -------------------------------- | --------------------------------------- |
+| size         | size in bytes                    | n/a                                     |
+| elapsed      | elapsed time in seconds          | n/a                                     |
+| percentage   | percentage in string             | n/a                                     |
+| download     | download function handler        | (downloadUrl: string, filename: string) |
+| cancel       | cancel function handler          | n/a                                     |
+| error        | error object from the request    | n/a                                     |
+| isInProgress | boolean denoting download status | n/a                                     |
 
 ```jsx
 const {
