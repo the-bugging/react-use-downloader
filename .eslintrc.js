@@ -2,11 +2,16 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
+    'jest/globals': true
+  },
+  globals: {
+    JestMockFn: true,
   },
   extends: [
     'plugin:react/recommended',
     'airbnb',
     'plugin:prettier/recommended',
+    'plugin:jest/recommended'
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -15,7 +20,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'react-hooks', 'prettier'],
+  plugins: ['jest', 'react', 'react-hooks', 'prettier'],
   settings: {
     'import/resolver': {
       node: {
