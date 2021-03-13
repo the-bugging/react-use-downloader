@@ -22,7 +22,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run test:coverage && istanbul-badges-readme && git add 'README.md'"
+      "pre-commit": "npm run test:coverage && npm run make-badges && git add 'README.md'"
     }
   },
   "scripts": {
@@ -35,7 +35,9 @@
     "release": "standard-version",
     "test:coverage": "jest --coverage",
     "test": "jest",
-    "make-badges": "istanbul-badges-readme"
+    "make-badges": "istanbul-badges-readme",
+    "predeploy": "cd example && npm install && npm run build",
+    "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
     "react": "^17.0.1"

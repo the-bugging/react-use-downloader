@@ -1,5 +1,6 @@
+/* eslint-disable no-prototype-builtins */
 import { renderHook, act } from '@testing-library/react-hooks';
-import useDownloader, { jsDownload } from './index';
+import useDownloader, { jsDownload } from '../index';
 
 const expectedKeys = [
   'elapsed',
