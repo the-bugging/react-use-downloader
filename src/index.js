@@ -1,96 +1,99 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-export const resolver = ({
-  setSize,
-  setControllerCallback,
-  setPercentageCallback,
-  setErrorCallback,
-}) => (response) => {
-  if (!response.ok) {
-    throw Error(`${response.status} ${response.type} ${response.statusText}`);
-  }
+export const resolver =
+  ({
+    setSize,
+    setControllerCallback,
+    setPercentageCallback,
+    setErrorCallback,
+  }) =>
+  (response) => {
+    if (!response.ok) {
+      throw Error(`${response.status} ${response.type} ${response.statusText}`);
+    }
 
-  if (!response.body) {
-    throw Error('ReadableStream not yet supported in this browser.');
-  }
+    if (!response.body) {
+      throw Error('ReadableStream not yet supported in this browser.');
+    }
 
-  const contentEncoding = response.headers.get('content-encoding');
-  const contentLength = response.headers.get(
-    contentEncoding ? 'x-file-size' : 'content-length'
-  );
+    const contentEncoding = response.headers.get('content-encoding');
+    const contentLength = response.headers.get(
+      contentEncoding ? 'x-file-size' : 'content-length'
+    );
 
-  const total = parseInt(contentLength || 0, 10);
+    const total = parseInt(contentLength || 0, 10);
 
-  setSize(() => total);
+    setSize(() => total);
 
-  let loaded = 0;
+    let loaded = 0;
 
-  const stream = new ReadableStream({
-    start(controller) {
-      setControllerCallback(controller);
+    const stream = new ReadableStream({
+      start(controller) {
+        setControllerCallback(controller);
 
-      const reader = response.body.getReader();
+        const reader = response.body.getReader();
 
-      function read() {
-        return reader
-          .read()
-          .then(({ done, value }) => {
-            if (done) {
-              return controller.close();
-            }
+        function read() {
+          return reader
+            .read()
+            .then(({ done, value }) => {
+              if (done) {
+                return controller.close();
+              }
 
-            loaded += value.byteLength;
+              loaded += value.byteLength;
 
-            controller.enqueue(value);
+              controller.enqueue(value);
 
-            setPercentageCallback({ loaded, total });
+              setPercentageCallback({ loaded, total });
 
-            return read();
-          })
-          .catch((error) => {
-            setErrorCallback(error);
-            reader.cancel('Cancelled');
-            return controller.error(error);
-          });
-      }
+              return read();
+            })
+            .catch((error) => {
+              setErrorCallback(error);
+              reader.cancel('Cancelled');
+              return controller.error(error);
+            });
+        }
 
-      return read();
-    },
-  });
+        return read();
+      },
+    });
 
-  return new Response(stream);
-};
+    return new Response(stream);
+  };
 
-export function jsDownload(data, filename, mime, bom) {
+export const jsDownload = (data, filename, mime, bom) => {
   const blobData = typeof bom !== 'undefined' ? [bom, data] : [data];
   const blob = new Blob(blobData, {
     type: mime || 'application/octet-stream',
   });
+
   if (typeof window.navigator.msSaveBlob !== 'undefined') {
-    window.navigator.msSaveBlob(blob, filename);
-  } else {
-    const blobURL =
-      window.URL && window.URL.createObjectURL
-        ? window.URL.createObjectURL(blob)
-        : window.webkitURL.createObjectURL(blob);
-    const tempLink = document.createElement('a');
-    tempLink.style.display = 'none';
-    tempLink.href = blobURL;
-    tempLink.setAttribute('download', filename);
-
-    if (typeof tempLink.download === 'undefined') {
-      tempLink.setAttribute('target', '_blank');
-    }
-
-    document.body.appendChild(tempLink);
-    tempLink.click();
-
-    setTimeout(() => {
-      document.body.removeChild(tempLink);
-      window.URL.revokeObjectURL(blobURL);
-    }, 200);
+    return window.navigator.msSaveBlob(blob, filename);
   }
-}
+
+  const blobURL =
+    window.URL && window.URL.createObjectURL
+      ? window.URL.createObjectURL(blob)
+      : window.webkitURL.createObjectURL(blob);
+  const tempLink = document.createElement('a');
+  tempLink.style.display = 'none';
+  tempLink.href = blobURL;
+  tempLink.setAttribute('download', filename);
+
+  if (typeof tempLink.download === 'undefined') {
+    tempLink.setAttribute('target', '_blank');
+  }
+
+  document.body.appendChild(tempLink);
+  tempLink.click();
+
+  return setTimeout(() => {
+    document.body.removeChild(tempLink);
+    window.URL.revokeObjectURL(blobURL);
+  }, 200);
+};
 
 export default function useDownloader() {
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
@@ -143,55 +146,53 @@ export default function useDownloader() {
   }, [setControllerCallback]);
 
   const handleDownload = useCallback(
-    (downloadUrl, filename) => {
-      async function startDownload() {
-        clearAllStateCallback();
-        setError(() => null);
-        setIsInProgress(() => true);
+    async (downloadUrl, filename) => {
+      if (isInProgress) return null;
 
-        const interval = setInterval(
-          () => setElapsed((prevValue) => prevValue + 1),
-          debugMode ? 1 : 1000
-        );
-        const resolverWithProgress = resolver({
-          setSize,
-          setControllerCallback,
-          setPercentageCallback,
-          setErrorCallback,
-        });
+      clearAllStateCallback();
+      setError(() => null);
+      setIsInProgress(() => true);
 
-        return fetch(downloadUrl, {
-          method: 'GET',
+      const interval = setInterval(
+        () => setElapsed((prevValue) => prevValue + 1),
+        debugMode ? 1 : 1000
+      );
+      const resolverWithProgress = resolver({
+        setSize,
+        setControllerCallback,
+        setPercentageCallback,
+        setErrorCallback,
+      });
+
+      return fetch(downloadUrl, {
+        method: 'GET',
+      })
+        .then(resolverWithProgress)
+        .then((data) => {
+          return data.blob();
         })
-          .then(resolverWithProgress)
-          .then((data) => data.blob())
-          .then((response) => jsDownload(response, filename))
-          .then(() => {
-            clearAllStateCallback();
+        .then((response) => jsDownload(response, filename))
+        .then(() => {
+          clearAllStateCallback();
 
-            return clearInterval(interval);
-          })
-          .catch((err) => {
-            clearAllStateCallback();
-            setError((prevValue) => {
-              const { message } = err;
+          return clearInterval(interval);
+        })
+        .catch((err) => {
+          clearAllStateCallback();
+          setError((prevValue) => {
+            const { message } = err;
 
-              if (message !== 'Failed to fetch') {
-                return {
-                  errorMessage: err.message,
-                };
-              }
+            if (message !== 'Failed to fetch') {
+              return {
+                errorMessage: err.message,
+              };
+            }
 
-              return prevValue;
-            });
-
-            return clearInterval(interval);
+            return prevValue;
           });
-      }
 
-      if (!isInProgress) {
-        startDownload();
-      }
+          return clearInterval(interval);
+        });
     },
     [
       isInProgress,

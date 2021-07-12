@@ -1,4 +1,8 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable jest/no-focused-tests */
 /* eslint-disable no-prototype-builtins */
+import { fetch, Response } from 'node-fetch';
+import { ReadableStream } from 'web-streams-polyfill/ponyfill';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
 
@@ -12,7 +16,79 @@ const expectedKeys = [
   'isInProgress',
 ];
 
-describe('useDownloader', () => {
+beforeAll(() => {
+  global.window.fetch = fetch;
+  global.Response = Response;
+  global.ReadableStream = ReadableStream;
+});
+
+describe('useDownloader successes', () => {
+  beforeAll(() => {
+    process.env.REACT_APP_DEBUG_MODE = 'true';
+    window.URL = {
+      createObjectURL: () => true,
+      revokeObjectURL: () => true,
+    };
+    window.webkitURL = {
+      createObjectURL: () => true,
+    };
+
+    const pieces = [
+      new Uint8Array([65, 98, 99, 32, 208]), // "Abc " and first byte of "й"
+      new Uint8Array([185, 209, 139, 209, 141]), // Second byte of "й" and "ыэ"
+    ];
+
+    const fakeHeaders = {
+      'content-encoding': '',
+      'x-file-size': 123,
+      'content-length': 456,
+    };
+
+    global.window.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        headers: {
+          ...fakeHeaders,
+          get: (header) => fakeHeaders[header],
+        },
+        body: {
+          getReader() {
+            let i = 0;
+
+            return {
+              read() {
+                return Promise.resolve(
+                  i < pieces.length
+                    ? { value: pieces[i++], done: false }
+                    : { value: undefined, done: true }
+                );
+              },
+            };
+          },
+        },
+        blob: () => Promise.resolve({}),
+      })
+    );
+  });
+
+  it('should run through', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useDownloader());
+
+    expect(result.current.isInProgress).toBeFalsy();
+
+    act(() => {
+      result.current.download('https://url.com', 'filename');
+    });
+
+    expect(result.current.isInProgress).toBeTruthy();
+
+    await waitForNextUpdate();
+
+    expect(result.current.isInProgress).toBeFalsy();
+  });
+});
+
+describe('useDownloader failures', () => {
   it('should be defined', () => {
     const { result } = renderHook(() => useDownloader());
     expect(result).toBeDefined();
@@ -64,7 +140,7 @@ describe('useDownloader', () => {
 
     const isInProgressRef = result.current.isInProgress;
 
-    expect(result.current.isInProgress).toBeTruthy();
+    expect(isInProgressRef).toBeTruthy();
 
     act(() => {
       result.current.download('https://url2.com', 'filename 2');
@@ -83,7 +159,10 @@ describe('useDownloader', () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
     global.window.fetch = jest.fn(() =>
-      Promise.resolve({ ok: true, body: undefined })
+      Promise.resolve({
+        ok: true,
+        body: undefined,
+      })
     );
 
     act(() => {
