@@ -1,7 +1,8 @@
+// @ts-nocheck
 /* eslint-disable no-plusplus */
 /* eslint-disable jest/no-focused-tests */
 /* eslint-disable no-prototype-builtins */
-import { fetch, Response } from 'node-fetch';
+import fetch from 'node-fetch';
 import { ReadableStream } from 'web-streams-polyfill/ponyfill';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
@@ -16,8 +17,10 @@ const expectedKeys = [
   'isInProgress',
 ];
 
+const scheme = global.Response;
+
 beforeAll(() => {
-  global.window.fetch = fetch;
+  global.window.fetch = fetch as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
   global.Response = Response;
   global.ReadableStream = ReadableStream;
 });
@@ -25,24 +28,20 @@ beforeAll(() => {
 describe('useDownloader successes', () => {
   beforeAll(() => {
     process.env.REACT_APP_DEBUG_MODE = 'true';
-    window.URL = {
-      createObjectURL: () => true,
-      revokeObjectURL: () => true,
-    };
-    window.webkitURL = {
-      createObjectURL: () => true,
-    };
+      window.URL.createObjectURL = () => 'true';
+      window.URL.revokeObjectURL = () => 'true';
+      window.webkitURL.createObjectURL = () => 'true';
 
     const pieces = [
       new Uint8Array([65, 98, 99, 32, 208]), // "Abc " and first byte of "й"
       new Uint8Array([185, 209, 139, 209, 141]), // Second byte of "й" and "ыэ"
     ];
 
-    const fakeHeaders = {
+    const fakeHeaders = new Headers({
       'content-encoding': '',
-      'x-file-size': 123,
-      'content-length': 456,
-    };
+      'x-file-size': '123',
+      'content-length': '456',
+    });
 
     global.window.fetch = jest.fn(() =>
       Promise.resolve({
@@ -57,7 +56,7 @@ describe('useDownloader successes', () => {
 
             return {
               read() {
-                return Promise.resolve(
+                return Promise.resolve<ReadableStreamDefaultReadResult<Uint8Array>>(
                   i < pieces.length
                     ? { value: pieces[i++], done: false }
                     : { value: undefined, done: true }
@@ -66,7 +65,7 @@ describe('useDownloader successes', () => {
             };
           },
         },
-        blob: () => Promise.resolve({}),
+        blob: () => Promise.resolve(new Blob),
       })
     );
   });
@@ -105,7 +104,7 @@ describe('useDownloader failures', () => {
   it('should start download with no OK', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false }));
+    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false })) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
 
     const downloadSpy = jest.spyOn(result.current, 'download');
 
@@ -128,7 +127,7 @@ describe('useDownloader failures', () => {
     process.env.REACT_APP_DEBUG_MODE = 'true';
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false }));
+    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false })) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
 
     const downloadSpy = jest.spyOn(result.current, 'download');
 
@@ -163,7 +162,7 @@ describe('useDownloader failures', () => {
         ok: true,
         body: undefined,
       })
-    );
+    ) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
 
     act(() => {
       result.current.download('https://url.com', 'filename');
@@ -231,10 +230,8 @@ describe('useDownloader failures', () => {
   describe('Tests without msSaveBlob', () => {
     beforeAll(() => {
       window.navigator.msSaveBlob = undefined;
-      window.URL = {
-        createObjectURL: () => null,
-        revokeObjectURL: () => null,
-      };
+      window.URL.createObjectURL = () => null;
+      window.URL.revokeObjectURL = () => null;
     });
 
     it('should test with URL and being revoked', async () => {
@@ -252,9 +249,8 @@ describe('useDownloader failures', () => {
 
     it('should test with URL via webkitURL', () => {
       window.URL = undefined;
-      window.webkitURL = {
-        createObjectURL: () => null,
-      };
+      window.webkitURL.createObjectURL = () => null;
+
       const createObjectWebkitURLSpy = jest.spyOn(
         window.webkitURL,
         'createObjectURL'
