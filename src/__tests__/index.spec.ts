@@ -1,6 +1,4 @@
-// @ts-nocheck
 /* eslint-disable no-plusplus */
-/* eslint-disable jest/no-focused-tests */
 /* eslint-disable no-prototype-builtins */
 import fetch from 'node-fetch';
 import { ReadableStream } from 'web-streams-polyfill/ponyfill';
@@ -17,8 +15,6 @@ const expectedKeys = [
   'isInProgress',
 ];
 
-const scheme = global.Response;
-
 beforeAll(() => {
   global.window.fetch = fetch as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
   global.Response = Response;
@@ -28,9 +24,9 @@ beforeAll(() => {
 describe('useDownloader successes', () => {
   beforeAll(() => {
     process.env.REACT_APP_DEBUG_MODE = 'true';
-      window.URL.createObjectURL = () => 'true';
-      window.URL.revokeObjectURL = () => 'true';
-      window.webkitURL.createObjectURL = () => 'true';
+    window.URL.createObjectURL = () => 'true';
+    window.URL.revokeObjectURL = () => 'true';
+    window.webkitURL.createObjectURL = () => 'true';
 
     const pieces = [
       new Uint8Array([65, 98, 99, 32, 208]), // "Abc " and first byte of "й"
@@ -43,7 +39,7 @@ describe('useDownloader successes', () => {
       'content-length': '456',
     });
 
-    global.window.fetch = jest.fn(() =>
+    global.window.fetch = () =>
       Promise.resolve({
         ok: true,
         headers: {
@@ -56,7 +52,9 @@ describe('useDownloader successes', () => {
 
             return {
               read() {
-                return Promise.resolve<ReadableStreamDefaultReadResult<Uint8Array>>(
+                return Promise.resolve<
+                  ReadableStreamDefaultReadResult<Uint8Array>
+                >(
                   i < pieces.length
                     ? { value: pieces[i++], done: false }
                     : { value: undefined, done: true }
@@ -65,9 +63,8 @@ describe('useDownloader successes', () => {
             };
           },
         },
-        blob: () => Promise.resolve(new Blob),
-      })
-    );
+        blob: () => Promise.resolve(new Blob()),
+      }) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
   });
 
   it('should run through', async () => {
@@ -104,7 +101,11 @@ describe('useDownloader failures', () => {
   it('should start download with no OK', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false })) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
+    global.window.fetch = () =>
+      Promise.resolve({ ok: false }) as Extract<
+        WindowOrWorkerGlobalScope,
+        'fetch'
+      >;
 
     const downloadSpy = jest.spyOn(result.current, 'download');
 
@@ -127,7 +128,9 @@ describe('useDownloader failures', () => {
     process.env.REACT_APP_DEBUG_MODE = 'true';
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() => Promise.resolve({ ok: false })) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
+    global.window.fetch = jest.fn(() =>
+      Promise.resolve({ ok: false })
+    ) as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
 
     const downloadSpy = jest.spyOn(result.current, 'download');
 
@@ -219,6 +222,7 @@ describe('useDownloader failures', () => {
     });
 
     it('should test with msSaveBlob', () => {
+      console.error = jest.fn();
       const msSaveBlobSpy = jest.spyOn(window.navigator, 'msSaveBlob');
 
       jsDownload(new Blob(['abcde']), 'test');
