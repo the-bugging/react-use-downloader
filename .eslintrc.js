@@ -2,17 +2,15 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
-    'jest/globals': true
-  },
-  globals: {
-    JestMockFn: true,
   },
   extends: [
     'plugin:react/recommended',
     'airbnb',
     'plugin:prettier/recommended',
-    'plugin:jest/recommended'
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -20,24 +18,22 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['jest', 'react', 'react-hooks', 'prettier'],
+  plugins: ['react', 'react-hooks', '@typescript-eslint', 'prettier'],
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.json'],
+        extensions: ['.jsx', '.ts', '.tsx'],
       },
     },
   },
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
-    'react/jsx-filename-extension': [
-      'error',
-      { extensions: ['.js', '.jsx', '.json'] },
-    ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/prop-types': 'off',
     'react/jsx-one-expression-per-line': 'off',
-    'import/extensions': ['off'],
+    'import/extensions': ['error', 'never'],
     'import/prefer-default-export': 'off',
     'import/no-unresolved': ['error', { ignore: ['react-hooks-fetch'] }],
     camelcase: [
@@ -50,5 +46,6 @@ module.exports = {
     ],
     'react/state-in-constructor': 'off',
     'no-console': 'off',
+    'react/react-in-jsx-scope': 'off',
   },
 };

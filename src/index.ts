@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
+import { IResolverProps, IUseDownloader, TError } from './types';
 
 export const resolver =
   ({
@@ -6,8 +7,8 @@ export const resolver =
     setControllerCallback,
     setPercentageCallback,
     setErrorCallback,
-  }) =>
-  (response) => {
+  }: IResolverProps) =>
+  (response: Response): Response => {
     if (!response.ok) {
       throw Error(`${response.status} ${response.type} ${response.statusText}`);
     }
@@ -16,24 +17,26 @@ export const resolver =
       throw Error('ReadableStream not yet supported in this browser.');
     }
 
+    const responseBody = response.body;
+
     const contentEncoding = response.headers.get('content-encoding');
     const contentLength = response.headers.get(
       contentEncoding ? 'x-file-size' : 'content-length'
     );
 
-    const total = parseInt(contentLength || 0, 10);
+    const total = parseInt(contentLength || '0', 10);
 
     setSize(() => total);
 
     let loaded = 0;
 
-    const stream = new ReadableStream({
+    const stream = new ReadableStream<Uint8Array>({
       start(controller) {
         setControllerCallback(controller);
 
-        const reader = response.body.getReader();
+        const reader = responseBody.getReader();
 
-        function read() {
+        async function read(): Promise<void> {
           return reader
             .read()
             .then(({ done, value }) => {
@@ -41,17 +44,20 @@ export const resolver =
                 return controller.close();
               }
 
-              loaded += value.byteLength;
+              loaded += value?.byteLength || 0;
 
-              controller.enqueue(value);
+              if (value) {
+                controller.enqueue(value);
+              }
 
               setPercentageCallback({ loaded, total });
 
               return read();
             })
-            .catch((error) => {
+            .catch((error: Error) => {
               setErrorCallback(error);
               reader.cancel('Cancelled');
+
               return controller.error(error);
             });
         }
@@ -63,8 +69,12 @@ export const resolver =
     return new Response(stream);
   };
 
-export const jsDownload = (data, filename, mime, bom) => {
-  const blobData = typeof bom !== 'undefined' ? [bom, data] : [data];
+export const jsDownload = (
+  data: Blob,
+  filename: string,
+  mime?: string
+): boolean | NodeJS.Timeout => {
+  const blobData = [data];
   const blob = new Blob(blobData, {
     type: mime || 'application/octet-stream',
   });
@@ -95,16 +105,18 @@ export const jsDownload = (data, filename, mime, bom) => {
   }, 200);
 };
 
-export default function useDownloader() {
+export default function useDownloader(): IUseDownloader {
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
 
   const [elapsed, setElapsed] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [size, setSize] = useState(0);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<TError>(null);
   const [isInProgress, setIsInProgress] = useState(false);
 
-  const controllerRef = useRef(null);
+  const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(
+    null
+  );
 
   const setPercentageCallback = useCallback(({ loaded, total }) => {
     const pct = Math.round((loaded / total) * 100);
@@ -112,7 +124,7 @@ export default function useDownloader() {
     setPercentage(() => pct);
   }, []);
 
-  const setErrorCallback = useCallback((err) => {
+  const setErrorCallback = useCallback((err: Error) => {
     const errorMap = {
       "Failed to execute 'enqueue' on 'ReadableStreamDefaultController': Cannot enqueue a chunk into an errored readable stream":
         'Download canceled',
