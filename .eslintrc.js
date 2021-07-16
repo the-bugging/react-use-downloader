@@ -22,11 +22,10 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.ts', '.tsx'],
+        extensions: ['.jsx', '.ts', '.tsx'],
       },
     },
   },
-  ignorePatterns: ["./example/*"],
   rules: {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',

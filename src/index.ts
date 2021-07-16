@@ -8,7 +8,7 @@ export const resolver =
     setPercentageCallback,
     setErrorCallback,
   }: IResolverProps) =>
-  (response: Response) => {
+  (response: Response): Response => {
     if (!response.ok) {
       throw Error(`${response.status} ${response.type} ${response.statusText}`);
     }
@@ -24,7 +24,7 @@ export const resolver =
       contentEncoding ? 'x-file-size' : 'content-length'
     );
 
-    const total = parseInt(contentLength || "0", 10);
+    const total = parseInt(contentLength || '0', 10);
 
     setSize(() => total);
 
@@ -69,7 +69,11 @@ export const resolver =
     return new Response(stream);
   };
 
-export const jsDownload = (data: Blob, filename: string, mime?: string) => {
+export const jsDownload = (
+  data: Blob,
+  filename: string,
+  mime?: string
+): boolean | NodeJS.Timeout => {
   const blobData = [data];
   const blob = new Blob(blobData, {
     type: mime || 'application/octet-stream',
@@ -110,7 +114,9 @@ export default function useDownloader(): IUseDownloader {
   const [error, setError] = useState<TError>(null);
   const [isInProgress, setIsInProgress] = useState(false);
 
-  const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(null);
+  const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(
+    null
+  );
 
   const setPercentageCallback = useCallback(({ loaded, total }) => {
     const pct = Math.round((loaded / total) * 100);
@@ -118,15 +124,15 @@ export default function useDownloader(): IUseDownloader {
     setPercentage(() => pct);
   }, []);
 
-  const setErrorCallback = useCallback((error: Error) => {
+  const setErrorCallback = useCallback((err: Error) => {
     const errorMap = {
       "Failed to execute 'enqueue' on 'ReadableStreamDefaultController': Cannot enqueue a chunk into an errored readable stream":
         'Download canceled',
     };
     setError(() => {
-      const resolvedError = errorMap[error.message]
-        ? errorMap[error.message]
-        : error.message;
+      const resolvedError = errorMap[err.message]
+        ? errorMap[err.message]
+        : err.message;
 
       return { errorMessage: resolvedError };
     });
