@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.6](https://github.com/olavoparno/react-use-downloader/compare/v1.1.4...v1.1.6) (2021-08-11)
+
+
+### Documentation
+
+* **ghPages:** update gh pages markdown ([c5e7a77](https://github.com/olavoparno/react-use-downloader/commit/c5e7a77d138d0a05b972cf698637e65b7203ebe4))
+* **project:** add example project ([a60a7b4](https://github.com/olavoparno/react-use-downloader/commit/a60a7b4ba8ee80b4bf6a6fe9ef8e214cb87a12ff))
+
+
+### Tests
+
+* add more testing ([19285dd](https://github.com/olavoparno/react-use-downloader/commit/19285dd1a20c1b4c0443a129a9be4464044a6b12))
+* adjust test project ([66d6095](https://github.com/olavoparno/react-use-downloader/commit/66d60953ced492adb64fe3b63d349a8958116483))
+* adjust testing ([d8a640c](https://github.com/olavoparno/react-use-downloader/commit/d8a640cf854fae08fd1bcb40784501ac4ce231bf))
+
 ### [1.1.5](https://github.com/olavoparno/react-use-downloader/compare/v1.1.4...v1.1.5) (2021-03-13)
 
 
