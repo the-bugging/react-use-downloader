@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { IResolverProps, IUseDownloader, TError } from './types';
+import { DownloadFunction, IResolverProps, IUseDownloader, IWindowDownloaderEmbedded, TError } from './types';
 
 export const resolver =
   ({
@@ -8,66 +8,66 @@ export const resolver =
     setPercentageCallback,
     setErrorCallback,
   }: IResolverProps) =>
-  (response: Response): Response => {
-    if (!response.ok) {
-      throw Error(`${response.status} ${response.type} ${response.statusText}`);
-    }
+    (response: Response): Response => {
+      if (!response.ok) {
+        throw Error(`${response.status} ${response.type} ${response.statusText}`);
+      }
 
-    if (!response.body) {
-      throw Error('ReadableStream not yet supported in this browser.');
-    }
+      if (!response.body) {
+        throw Error('ReadableStream not yet supported in this browser.');
+      }
 
-    const responseBody = response.body;
+      const responseBody = response.body;
 
-    const contentEncoding = response.headers.get('content-encoding');
-    const contentLength = response.headers.get(
-      contentEncoding ? 'x-file-size' : 'content-length'
-    );
+      const contentEncoding = response.headers.get('content-encoding');
+      const contentLength = response.headers.get(
+        contentEncoding ? 'x-file-size' : 'content-length'
+      );
 
-    const total = parseInt(contentLength || '0', 10);
+      const total = parseInt(contentLength || '0', 10);
 
-    setSize(() => total);
+      setSize(() => total);
 
-    let loaded = 0;
+      let loaded = 0;
 
-    const stream = new ReadableStream<Uint8Array>({
-      start(controller) {
-        setControllerCallback(controller);
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          setControllerCallback(controller);
 
-        const reader = responseBody.getReader();
+          const reader = responseBody.getReader();
 
-        async function read(): Promise<void> {
-          return reader
-            .read()
-            .then(({ done, value }) => {
-              if (done) {
-                return controller.close();
-              }
+          async function read(): Promise<void> {
+            return reader
+              .read()
+              .then(({ done, value }) => {
+                if (done) {
+                  return controller.close();
+                }
 
-              loaded += value?.byteLength || 0;
+                loaded += value?.byteLength || 0;
 
-              if (value) {
-                controller.enqueue(value);
-              }
+                if (value) {
+                  controller.enqueue(value);
+                }
 
-              setPercentageCallback({ loaded, total });
+                setPercentageCallback({ loaded, total });
 
-              return read();
-            })
-            .catch((error: Error) => {
-              setErrorCallback(error);
-              reader.cancel('Cancelled');
+                return read();
+              })
+              .catch((error: Error) => {
+                setErrorCallback(error);
+                reader.cancel('Cancelled');
 
-              return controller.error(error);
-            });
-        }
+                return controller.error(error);
+              });
+          }
 
-        return read();
-      },
-    });
+          return read();
+        },
+      });
 
-    return new Response(stream);
-  };
+      return new Response(stream);
+    };
 
 export const jsDownload = (
   data: Blob,
@@ -79,8 +79,8 @@ export const jsDownload = (
     type: mime || 'application/octet-stream',
   });
 
-  if (typeof window.navigator.msSaveBlob !== 'undefined') {
-    return window.navigator.msSaveBlob(blob, filename);
+  if (typeof (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob !== 'undefined') {
+    return (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob(blob, filename);
   }
 
   const blobURL =
@@ -128,6 +128,7 @@ export default function useDownloader(): IUseDownloader {
     const errorMap = {
       "Failed to execute 'enqueue' on 'ReadableStreamDefaultController': Cannot enqueue a chunk into an errored readable stream":
         'Download canceled',
+      'The user aborted a request.': 'Download timed out',
     };
     setError(() => {
       const resolvedError = errorMap[err.message]
@@ -138,7 +139,7 @@ export default function useDownloader(): IUseDownloader {
     });
   }, []);
 
-  const setControllerCallback = useCallback((controller) => {
+  const setControllerCallback = useCallback((controller: ReadableStreamController<Uint8Array> | null) => {
     controllerRef.current = controller;
   }, []);
 
@@ -157,15 +158,15 @@ export default function useDownloader(): IUseDownloader {
     setIsInProgress(() => false);
   }, [setControllerCallback]);
 
-  const handleDownload = useCallback(
-    async (downloadUrl, filename) => {
+  const handleDownload: DownloadFunction = useCallback(
+    async (downloadUrl, filename, timeout = 0) => {
       if (isInProgress) return null;
 
       clearAllStateCallback();
       setError(() => null);
       setIsInProgress(() => true);
 
-      const interval = setInterval(
+      const intervalId = setInterval(
         () => setElapsed((prevValue) => prevValue + 1),
         debugMode ? 1 : 1000
       );
@@ -176,8 +177,14 @@ export default function useDownloader(): IUseDownloader {
         setErrorCallback,
       });
 
+      const fetchController = new AbortController();
+      const timeoutId = setTimeout(() => {
+        if (timeout > 0) fetchController.abort();
+      }, timeout);
+
       return fetch(downloadUrl, {
         method: 'GET',
+        signal: fetchController.signal
       })
         .then(resolverWithProgress)
         .then((data) => {
@@ -187,7 +194,7 @@ export default function useDownloader(): IUseDownloader {
         .then(() => {
           clearAllStateCallback();
 
-          return clearInterval(interval);
+          return clearInterval(intervalId);
         })
         .catch((err) => {
           clearAllStateCallback();
@@ -203,7 +210,8 @@ export default function useDownloader(): IUseDownloader {
             return prevValue;
           });
 
-          return clearInterval(interval);
+          clearTimeout(timeoutId);
+          return clearInterval(intervalId);
         });
     },
     [

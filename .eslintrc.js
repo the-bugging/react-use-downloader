@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 module.exports = {
   env: {
     browser: true,
@@ -22,7 +23,7 @@ module.exports = {
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.jsx', '.ts', '.tsx'],
+        extensions: ['.ts', '.tsx', '.json'],
       },
     },
   },
@@ -30,10 +31,10 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'error',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
     'react/prop-types': 'off',
     'react/jsx-one-expression-per-line': 'off',
-    'import/extensions': ['error', 'never'],
+    'import/extensions': 0,
     'import/prefer-default-export': 'off',
     'import/no-unresolved': ['error', { ignore: ['react-hooks-fetch'] }],
     camelcase: [

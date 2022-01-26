@@ -1,9 +1,7 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable no-prototype-builtins */
-import fetch from 'node-fetch';
 import { ReadableStream } from 'web-streams-polyfill/ponyfill';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
+import { IWindowDownloaderEmbedded } from '../types';
 
 const expectedKeys = [
   'elapsed',
@@ -216,14 +214,18 @@ describe('useDownloader failures', () => {
 
   describe('Tests with msSaveBlob', () => {
     beforeAll(() => {
-      window.navigator.msSaveBlob = () => {
-        return true;
-      };
+      (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob =
+        () => {
+          return true;
+        };
     });
 
     it('should test with msSaveBlob', () => {
       console.error = jest.fn();
-      const msSaveBlobSpy = jest.spyOn(window.navigator, 'msSaveBlob');
+      const msSaveBlobSpy = jest.spyOn(
+        (window as unknown as IWindowDownloaderEmbedded).navigator,
+        'msSaveBlob'
+      );
 
       jsDownload(new Blob(['abcde']), 'test');
 
@@ -233,12 +235,15 @@ describe('useDownloader failures', () => {
 
   describe('Tests without msSaveBlob', () => {
     beforeAll(() => {
-      window.navigator.msSaveBlob = undefined;
+      (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob =
+        undefined;
       window.URL.createObjectURL = () => null;
       window.URL.revokeObjectURL = () => null;
     });
 
     it('should test with URL and being revoked', async () => {
+      jest.useFakeTimers('modern');
+
       const createObjectURLSpy = jest.spyOn(window.URL, 'createObjectURL');
       const revokeObjectURLSpy = jest.spyOn(window.URL, 'revokeObjectURL');
 
@@ -246,7 +251,7 @@ describe('useDownloader failures', () => {
 
       expect(createObjectURLSpy).toHaveBeenCalled();
 
-      await new Promise((resolve) => setTimeout(() => resolve(true), 250));
+      jest.runAllTimers();
 
       expect(revokeObjectURLSpy).toHaveBeenCalled();
     });

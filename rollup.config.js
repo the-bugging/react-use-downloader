@@ -28,7 +28,7 @@ export default {
     url({ exclude: ['**/*.svg'] }),
     resolve(),
     typescript(),
-    commonjs({ extensions: ['.js', '.ts'] }),
+    commonjs({ extensions: ['.ts'] }),
     terser(),
   ],
 };

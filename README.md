@@ -87,15 +87,15 @@ export default function App() {
 
 - An object with the following keys:
 
-| key          | description                      | arguments                               |
-| ------------ | -------------------------------- | --------------------------------------- |
-| size         | size in bytes                    | n/a                                     |
-| elapsed      | elapsed time in seconds          | n/a                                     |
-| percentage   | percentage in string             | n/a                                     |
-| download     | download function handler        | (downloadUrl: string, filename: string) |
-| cancel       | cancel function handler          | n/a                                     |
-| error        | error object from the request    | n/a                                     |
-| isInProgress | boolean denoting download status | n/a                                     |
+| key          | description                      | arguments                                                 |
+| ------------ | -------------------------------- | --------------------------------------------------------- |
+| size         | size in bytes                    | n/a                                                       |
+| elapsed      | elapsed time in seconds          | n/a                                                       |
+| percentage   | percentage in string             | n/a                                                       |
+| download     | download function handler        | (downloadUrl: string, filename: string, timeout?: number) |
+| cancel       | cancel function handler          | n/a                                                       |
+| error        | error object from the request    | n/a                                                       |
+| isInProgress | boolean denoting download status | n/a                                                       |
 
 ```jsx
 const {
