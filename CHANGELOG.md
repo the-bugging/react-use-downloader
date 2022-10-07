@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/olavoparno/react-use-downloader/compare/v1.1.7...v1.2.0) (2022-10-07)
+
+
+### Features
+
+* **project:** add timeout option ([7a0027a](https://github.com/olavoparno/react-use-downloader/commit/7a0027a58d4c2774f6c3ba8bcce39db721be8371))
+
+
+### Documentation
+
+* adjust readme ([a68aa9f](https://github.com/olavoparno/react-use-downloader/commit/a68aa9f18a2756703e4a22c180c4bf0758a77a7b))
+* create .all-contributorsrc [skip ci] ([a9c17a0](https://github.com/olavoparno/react-use-downloader/commit/a9c17a087c274ac0f3a2c8950c30030ba911f7b9))
+* update README.md [skip ci] ([d6cf022](https://github.com/olavoparno/react-use-downloader/commit/d6cf0222a7995a07e9e0545ad528bc88b6469a53))
+
 ### [1.1.7](https://github.com/olavoparno/react-use-downloader/compare/v1.1.6...v1.1.7) (2022-01-26)
 
 
