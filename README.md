@@ -1,6 +1,6 @@
 <img align="right" alt="traffic" src="https://pv-badge.herokuapp.com/total.svg?repo_id=olavoparno-react-use-downloader"/>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 # react-use-downloader
@@ -126,6 +126,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center"><a href="https://semeniuc.ml/"><img src="https://avatars.githubusercontent.com/u/3838856?v=4?s=100" width="100px;" alt="Eric Semeniuc"/><br /><sub><b>Eric Semeniuc</b></sub></a><br /><a href="#ideas-esemeniuc" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center"><a href="https://github.com/davdi1337"><img src="https://avatars.githubusercontent.com/u/66253422?v=4?s=100" width="100px;" alt="davdi1337"/><br /><sub><b>davdi1337</b></sub></a><br /><a href="https://github.com/olavoparno/react-use-downloader/commits?author=davdi1337" title="Code">💻</a> <a href="https://github.com/olavoparno/react-use-downloader/issues?q=author%3Adavdi1337" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://heliusit.net"><img src="https://avatars.githubusercontent.com/u/7851219?v=4?s=100" width="100px;" alt="Mauro Stepanoski"/><br /><sub><b>Mauro Stepanoski</b></sub></a><br /><a href="#ideas-mastepanoski" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/olavoparno/react-use-downloader/commits?author=mastepanoski" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
