@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/olavoparno/react-use-downloader/compare/v1.2.0...v1.2.1) (2022-11-17)
+
+
+### Bug Fixes
+
+* upgrade @material-ui/core from 4.12.3 to 4.12.4 ([0ae2aa9](https://github.com/olavoparno/react-use-downloader/commit/0ae2aa9d537291c6d44049ad369ffdc9c2de2399))
+
+
+### Documentation
+
+* update .all-contributorsrc [skip ci] ([f5f6244](https://github.com/olavoparno/react-use-downloader/commit/f5f6244b2436167a24f59cfa81aaf8d7e661b1c0))
+* update .all-contributorsrc [skip ci] ([bac9990](https://github.com/olavoparno/react-use-downloader/commit/bac9990cbecb5ec41daab25f7de20daf2bca0b6f))
+* update README.md [skip ci] ([ee870fe](https://github.com/olavoparno/react-use-downloader/commit/ee870fe70153454eb5039dbfb289282263f0c2ec))
+* update README.md [skip ci] ([0cbe77f](https://github.com/olavoparno/react-use-downloader/commit/0cbe77f12a3a62855deccb6522f274daee5c74a3))
+
 ## [1.2.0](https://github.com/olavoparno/react-use-downloader/compare/v1.1.7...v1.2.0) (2022-10-07)
 
 
