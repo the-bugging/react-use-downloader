@@ -1,5 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { DownloadFunction, IResolverProps, IUseDownloader, IWindowDownloaderEmbedded, TError } from './types';
+import {
+  DownloadFunction,
+  IResolverProps,
+  IUseDownloader,
+  IWindowDownloaderEmbedded,
+  TError,
+  UseDownloaderOptions,
+} from './types';
 
 export const resolver =
   ({
@@ -8,66 +15,66 @@ export const resolver =
     setPercentageCallback,
     setErrorCallback,
   }: IResolverProps) =>
-    (response: Response): Response => {
-      if (!response.ok) {
-        throw Error(`${response.status} ${response.type} ${response.statusText}`);
-      }
+  (response: Response): Response => {
+    if (!response.ok) {
+      throw Error(`${response.status} ${response.type} ${response.statusText}`);
+    }
 
-      if (!response.body) {
-        throw Error('ReadableStream not yet supported in this browser.');
-      }
+    if (!response.body) {
+      throw Error('ReadableStream not yet supported in this browser.');
+    }
 
-      const responseBody = response.body;
+    const responseBody = response.body;
 
-      const contentEncoding = response.headers.get('content-encoding');
-      const contentLength = response.headers.get(
-        contentEncoding ? 'x-file-size' : 'content-length'
-      );
+    const contentEncoding = response.headers.get('content-encoding');
+    const contentLength = response.headers.get(
+      contentEncoding ? 'x-file-size' : 'content-length'
+    );
 
-      const total = parseInt(contentLength || '0', 10);
+    const total = parseInt(contentLength || '0', 10);
 
-      setSize(() => total);
+    setSize(() => total);
 
-      let loaded = 0;
+    let loaded = 0;
 
-      const stream = new ReadableStream<Uint8Array>({
-        start(controller) {
-          setControllerCallback(controller);
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        setControllerCallback(controller);
 
-          const reader = responseBody.getReader();
+        const reader = responseBody.getReader();
 
-          async function read(): Promise<void> {
-            return reader
-              .read()
-              .then(({ done, value }) => {
-                if (done) {
-                  return controller.close();
-                }
+        async function read(): Promise<void> {
+          return reader
+            .read()
+            .then(({ done, value }) => {
+              if (done) {
+                return controller.close();
+              }
 
-                loaded += value?.byteLength || 0;
+              loaded += value?.byteLength || 0;
 
-                if (value) {
-                  controller.enqueue(value);
-                }
+              if (value) {
+                controller.enqueue(value);
+              }
 
-                setPercentageCallback({ loaded, total });
+              setPercentageCallback({ loaded, total });
 
-                return read();
-              })
-              .catch((error: Error) => {
-                setErrorCallback(error);
-                reader.cancel('Cancelled');
+              return read();
+            })
+            .catch((error: Error) => {
+              setErrorCallback(error);
+              reader.cancel('Cancelled');
 
-                return controller.error(error);
-              });
-          }
+              return controller.error(error);
+            });
+        }
 
-          return read();
-        },
-      });
+        return read();
+      },
+    });
 
-      return new Response(stream);
-    };
+    return new Response(stream);
+  };
 
 export const jsDownload = (
   data: Blob,
@@ -79,8 +86,13 @@ export const jsDownload = (
     type: mime || 'application/octet-stream',
   });
 
-  if (typeof (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob !== 'undefined') {
-    return (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob(blob, filename);
+  if (
+    typeof (window as unknown as IWindowDownloaderEmbedded).navigator
+      .msSaveBlob !== 'undefined'
+  ) {
+    return (
+      window as unknown as IWindowDownloaderEmbedded
+    ).navigator.msSaveBlob(blob, filename);
   }
 
   const blobURL =
@@ -105,7 +117,9 @@ export const jsDownload = (
   }, 200);
 };
 
-export default function useDownloader(): IUseDownloader {
+export default function useDownloader(
+  options: UseDownloaderOptions = {}
+): IUseDownloader {
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
 
   const [elapsed, setElapsed] = useState(0);
@@ -139,9 +153,12 @@ export default function useDownloader(): IUseDownloader {
     });
   }, []);
 
-  const setControllerCallback = useCallback((controller: ReadableStreamController<Uint8Array> | null) => {
-    controllerRef.current = controller;
-  }, []);
+  const setControllerCallback = useCallback(
+    (controller: ReadableStreamController<Uint8Array> | null) => {
+      controllerRef.current = controller;
+    },
+    []
+  );
 
   const closeControllerCallback = useCallback(() => {
     if (controllerRef.current) {
@@ -183,8 +200,9 @@ export default function useDownloader(): IUseDownloader {
       }, timeout);
 
       return fetch(downloadUrl, {
+        ...options,
         method: 'GET',
-        signal: fetchController.signal
+        signal: fetchController.signal,
       })
         .then(resolverWithProgress)
         .then((data) => {
@@ -221,6 +239,7 @@ export default function useDownloader(): IUseDownloader {
       setControllerCallback,
       setPercentageCallback,
       setErrorCallback,
+      options,
     ]
   );
 
