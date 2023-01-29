@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 import {
   DownloadFunction,
-  IResolverProps,
-  IUseDownloader,
-  IWindowDownloaderEmbedded,
-  TError,
+  ResolverProps,
+  UseDownloader,
+  WindowDownloaderEmbedded,
+  ErrorMessage,
   UseDownloaderOptions,
 } from './types';
 
@@ -14,7 +14,7 @@ export const resolver =
     setControllerCallback,
     setPercentageCallback,
     setErrorCallback,
-  }: IResolverProps) =>
+  }: ResolverProps) =>
   (response: Response): Response => {
     if (!response.ok) {
       throw Error(`${response.status} ${response.type} ${response.statusText}`);
@@ -87,12 +87,13 @@ export const jsDownload = (
   });
 
   if (
-    typeof (window as unknown as IWindowDownloaderEmbedded).navigator
+    typeof (window as unknown as WindowDownloaderEmbedded).navigator
       .msSaveBlob !== 'undefined'
   ) {
-    return (
-      window as unknown as IWindowDownloaderEmbedded
-    ).navigator.msSaveBlob(blob, filename);
+    return (window as unknown as WindowDownloaderEmbedded).navigator.msSaveBlob(
+      blob,
+      filename
+    );
   }
 
   const blobURL =
@@ -119,13 +120,13 @@ export const jsDownload = (
 
 export default function useDownloader(
   options: UseDownloaderOptions = {}
-): IUseDownloader {
+): UseDownloader {
   const debugMode = process.env.REACT_APP_DEBUG_MODE;
 
   const [elapsed, setElapsed] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [size, setSize] = useState(0);
-  const [error, setError] = useState<TError>(null);
+  const [error, setError] = useState<ErrorMessage>(null);
   const [isInProgress, setIsInProgress] = useState(false);
 
   const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(

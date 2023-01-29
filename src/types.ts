@@ -1,6 +1,6 @@
 import { SetStateAction } from 'react';
 
-export type TError = {
+export type ErrorMessage = {
   errorMessage: string;
 } | null;
 
@@ -17,7 +17,7 @@ export type DownloadFunction = (
   timeout?: number
 ) => Promise<void | null>;
 
-export interface IUseDownloader {
+export interface UseDownloader {
   /** Size in bytes */
   size: number;
   /**	Elapsed time in seconds */
@@ -33,12 +33,12 @@ export interface IUseDownloader {
   /** Cancel function handler */
   cancel: () => void;
   /** Error object from the request */
-  error: TError;
+  error: ErrorMessage;
   /** Boolean denoting download status */
   isInProgress: boolean;
 }
 
-export interface IResolverProps {
+export interface ResolverProps {
   setSize: (value: SetStateAction<number>) => void;
   setControllerCallback: (
     controller: ReadableStreamController<Uint8Array>
@@ -57,7 +57,7 @@ interface CustomNavigator extends Navigator {
   msSaveBlob: (blob?: Blob, filename?: string) => boolean | NodeJS.Timeout;
 }
 
-export interface IWindowDownloaderEmbedded extends Window {
+export interface WindowDownloaderEmbedded extends Window {
   navigator: CustomNavigator;
 }
 
