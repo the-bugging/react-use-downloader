@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/olavoparno/react-use-downloader/compare/v1.2.1...v1.2.2) (2023-01-29)
+
+
+### Refactors
+
+* **project:** adjust interface naming and other things ([077fc88](https://github.com/olavoparno/react-use-downloader/commit/077fc885dfda8371613d45f3754a553950ef1b5b))
+
 ### [1.2.1](https://github.com/olavoparno/react-use-downloader/compare/v1.2.0...v1.2.1) (2022-11-17)
 
 
