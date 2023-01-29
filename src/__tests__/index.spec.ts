@@ -1,7 +1,12 @@
-import { ReadableStream } from 'web-streams-polyfill/ponyfill';
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-plusplus */
+import {
+  ReadableStream,
+  ReadableStreamDefaultReadResult,
+} from 'web-streams-polyfill/ponyfill';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
-import { IWindowDownloaderEmbedded } from '../types';
+import { WindowDownloaderEmbedded } from '../types';
 
 const expectedKeys = [
   'elapsed',
@@ -214,7 +219,7 @@ describe('useDownloader failures', () => {
 
   describe('Tests with msSaveBlob', () => {
     beforeAll(() => {
-      (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob =
+      (window as unknown as WindowDownloaderEmbedded).navigator.msSaveBlob =
         () => {
           return true;
         };
@@ -223,7 +228,7 @@ describe('useDownloader failures', () => {
     it('should test with msSaveBlob', () => {
       console.error = jest.fn();
       const msSaveBlobSpy = jest.spyOn(
-        (window as unknown as IWindowDownloaderEmbedded).navigator,
+        (window as unknown as WindowDownloaderEmbedded).navigator,
         'msSaveBlob'
       );
 
@@ -235,7 +240,7 @@ describe('useDownloader failures', () => {
 
   describe('Tests without msSaveBlob', () => {
     beforeAll(() => {
-      (window as unknown as IWindowDownloaderEmbedded).navigator.msSaveBlob =
+      (window as unknown as WindowDownloaderEmbedded).navigator.msSaveBlob =
         undefined;
       window.URL.createObjectURL = () => null;
       window.URL.revokeObjectURL = () => null;
