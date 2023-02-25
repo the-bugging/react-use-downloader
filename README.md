@@ -27,7 +27,7 @@
 | ![Example](./assets/readme.gif)                                 |
 | [Preview!](https://codesandbox.io/s/react-use-downloader-0zzoq) |
 
-> You may find another [example](./example) in this project which are served at [Github Pages](https://olavoparno.github.io/react-use-downloader).
+> You may find another [example](./example) in this project which are served at [Github Pages](https://the-bugging.github.io/react-use-downloader).
 
 ---
 
@@ -120,8 +120,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tbody>
     <tr>
       <td align="center"><a href="https://semeniuc.ml/"><img src="https://avatars.githubusercontent.com/u/3838856?v=4?s=100" width="100px;" alt="Eric Semeniuc"/><br /><sub><b>Eric Semeniuc</b></sub></a><br /><a href="#ideas-esemeniuc" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center"><a href="https://github.com/davdi1337"><img src="https://avatars.githubusercontent.com/u/66253422?v=4?s=100" width="100px;" alt="davdi1337"/><br /><sub><b>davdi1337</b></sub></a><br /><a href="https://github.com/olavoparno/react-use-downloader/commits?author=davdi1337" title="Code">💻</a> <a href="https://github.com/olavoparno/react-use-downloader/issues?q=author%3Adavdi1337" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="https://heliusit.net"><img src="https://avatars.githubusercontent.com/u/7851219?v=4?s=100" width="100px;" alt="Mauro Stepanoski"/><br /><sub><b>Mauro Stepanoski</b></sub></a><br /><a href="#ideas-mastepanoski" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/olavoparno/react-use-downloader/commits?author=mastepanoski" title="Code">💻</a></td>
+      <td align="center"><a href="https://github.com/davdi1337"><img src="https://avatars.githubusercontent.com/u/66253422?v=4?s=100" width="100px;" alt="davdi1337"/><br /><sub><b>davdi1337</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/commits?author=davdi1337" title="Code">💻</a> <a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Adavdi1337" title="Bug reports">🐛</a></td>
+      <td align="center"><a href="https://heliusit.net"><img src="https://avatars.githubusercontent.com/u/7851219?v=4?s=100" width="100px;" alt="Mauro Stepanoski"/><br /><sub><b>Mauro Stepanoski</b></sub></a><br /><a href="#ideas-mastepanoski" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author=mastepanoski" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

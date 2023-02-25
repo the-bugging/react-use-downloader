@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/olavoparno/react-use-downloader.git"
+    "url": "git://github.com/the-bugging/react-use-downloader.git"
   },
   "main": "dist/index.js",
   "module": "dist/index.es.js",
