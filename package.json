@@ -1,6 +1,6 @@
 {
   "name": "react-use-downloader",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Creates a download handler function and gives progress information",
   "author": "Olavo Parno",
   "license": "MIT",
@@ -38,7 +38,8 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint --fix src/**/*.ts",
     "release": "standard-version",
-    "make-badges": "istanbul-badges-readme --logo=jest"
+    "make-badges": "istanbul-badges-readme --logo=jest",
+    "prepublishOnly": "npm run build"
   },
   "jest": {
     "coverageReporters": [
