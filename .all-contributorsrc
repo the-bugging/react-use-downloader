@@ -33,6 +33,15 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "bzbetty",
+      "name": "Sam \"Betty\" McKoy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/533131?v=4",
+      "profile": "http://bzbetty.blogspot.com",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
