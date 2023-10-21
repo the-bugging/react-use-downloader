@@ -27,8 +27,6 @@
 | ![Example](./assets/readme.gif)                                 |
 | [Preview!](https://codesandbox.io/s/react-use-downloader-0zzoq) |
 
-> You may find another [example](./example) in this project which are served at [Github Pages](https://the-bugging.github.io/react-use-downloader).
-
 ---
 
 ## Install
