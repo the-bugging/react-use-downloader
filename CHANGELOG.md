@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.5](https://github.com/the-bugging/react-use-downloader/compare/v1.2.3...v1.2.5) (2024-02-17)
+
+
+### Documentation
+
+* update .all-contributorsrc [skip ci] ([9ef1cd0](https://github.com/the-bugging/react-use-downloader/commit/9ef1cd0fef5fdb1aea7b500e663461a80842a7d8))
+* update .all-contributorsrc [skip ci] ([fe24d4a](https://github.com/the-bugging/react-use-downloader/commit/fe24d4a5dcae06088b4ef5150c5e7c614cf03745))
+* update README.md [skip ci] ([a3e3957](https://github.com/the-bugging/react-use-downloader/commit/a3e3957651810a79a190718a495999b2dd3c84ab))
+* update README.md [skip ci] ([c5b3ade](https://github.com/the-bugging/react-use-downloader/commit/c5b3ade40b74f4d7f598a0de5252f33ff035fad2))
+* upgrade docs ([dac6bf8](https://github.com/the-bugging/react-use-downloader/commit/dac6bf8d952b76ad3485b929404a7875707ab66b))
+
 ### [1.2.4](https://github.com/the-bugging/react-use-downloader/compare/v1.2.3...v1.2.4) (2023-02-27)
 
 ### [1.2.3](https://github.com/the-bugging/react-use-downloader/compare/v1.2.2...v1.2.3) (2023-02-25)
