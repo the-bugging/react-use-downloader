@@ -8,7 +8,7 @@
 
 | Statements                                                                                      | Branches                                                                                 | Functions                                                                                     | Lines                                                                                 |
 | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| ![Statements](https://img.shields.io/badge/statements-87.96%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-73.68%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-81.81%25-yellow.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-88.65%25-yellow.svg?style=flat&logo=jest) |
+| ![Statements](https://img.shields.io/badge/statements-87.96%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-72.5%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-81.81%25-yellow.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-88.65%25-yellow.svg?style=flat&logo=jest) |
 
 ## Table of Contents
 
@@ -26,8 +26,6 @@
 | --------------------------------------------------------------- |
 | ![Example](./assets/readme.gif)                                 |
 | [Preview!](https://codesandbox.io/s/react-use-downloader-0zzoq) |
-
-> You may find another [example](./example) in this project which are served at [Github Pages](https://the-bugging.github.io/react-use-downloader).
 
 ---
 
@@ -119,9 +117,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://semeniuc.ml/"><img src="https://avatars.githubusercontent.com/u/3838856?v=4?s=100" width="100px;" alt="Eric Semeniuc"/><br /><sub><b>Eric Semeniuc</b></sub></a><br /><a href="#ideas-esemeniuc" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center"><a href="https://github.com/davdi1337"><img src="https://avatars.githubusercontent.com/u/66253422?v=4?s=100" width="100px;" alt="davdi1337"/><br /><sub><b>davdi1337</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/commits?author=davdi1337" title="Code">💻</a> <a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Adavdi1337" title="Bug reports">🐛</a></td>
-      <td align="center"><a href="https://heliusit.net"><img src="https://avatars.githubusercontent.com/u/7851219?v=4?s=100" width="100px;" alt="Mauro Stepanoski"/><br /><sub><b>Mauro Stepanoski</b></sub></a><br /><a href="#ideas-mastepanoski" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author=mastepanoski" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://semeniuc.ml/"><img src="https://avatars.githubusercontent.com/u/3838856?v=4?s=100" width="100px;" alt="Eric Semeniuc"/><br /><sub><b>Eric Semeniuc</b></sub></a><br /><a href="#ideas-esemeniuc" title="Ideas, Planning, & Feedback">🤔</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/davdi1337"><img src="https://avatars.githubusercontent.com/u/66253422?v=4?s=100" width="100px;" alt="davdi1337"/><br /><sub><b>davdi1337</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/commits?author=davdi1337" title="Code">💻</a> <a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Adavdi1337" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://heliusit.net"><img src="https://avatars.githubusercontent.com/u/7851219?v=4?s=100" width="100px;" alt="Mauro Stepanoski"/><br /><sub><b>Mauro Stepanoski</b></sub></a><br /><a href="#ideas-mastepanoski" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author=mastepanoski" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://bzbetty.blogspot.com"><img src="https://avatars.githubusercontent.com/u/533131?v=4?s=100" width="100px;" alt="Sam "Betty" McKoy"/><br /><sub><b>Sam "Betty" McKoy</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Abzbetty" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/peranosborn"><img src="https://avatars.githubusercontent.com/u/1318002?v=4?s=100" width="100px;" alt="Peran Osborn"/><br /><sub><b>Peran Osborn</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Aperanosborn" title="Bug reports">🐛</a> <a href="#ideas-peranosborn" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>

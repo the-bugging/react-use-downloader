@@ -33,13 +33,33 @@
         "ideas",
         "code"
       ]
+    },
+    {
+      "login": "bzbetty",
+      "name": "Sam \"Betty\" McKoy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/533131?v=4",
+      "profile": "http://bzbetty.blogspot.com",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "peranosborn",
+      "name": "Peran Osborn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1318002?v=4",
+      "profile": "https://github.com/peranosborn",
+      "contributions": [
+        "bug",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "react-use-downloader",
-  "projectOwner": "olavoparno",
+  "projectOwner": "the-bugging",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true,
-  "commitConvention": "angular"
+  "commitConvention": "angular",
+  "commitType": "docs"
 }
