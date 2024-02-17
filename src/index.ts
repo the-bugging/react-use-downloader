@@ -121,7 +121,7 @@ export const jsDownload = (
 export default function useDownloader(
   options: UseDownloaderOptions = {}
 ): UseDownloader {
-  const debugMode = process.env.REACT_APP_DEBUG_MODE;
+  const debugMode = process ? !!process?.env?.REACT_APP_DEBUG_MODE : false;
 
   const [elapsed, setElapsed] = useState(0);
   const [percentage, setPercentage] = useState(0);
