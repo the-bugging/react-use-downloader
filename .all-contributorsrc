@@ -52,6 +52,25 @@
         "bug",
         "ideas"
       ]
+    },
+    {
+      "login": "MarcosRS",
+      "name": "Marcos",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12486814?v=4",
+      "profile": "https://github.com/MarcosRS",
+      "contributions": [
+        "bug",
+        "ideas"
+      ]
+    },
+    {
+      "login": "9swampy",
+      "name": "9swampy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/523054?v=4",
+      "profile": "https://github.com/9swampy",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
