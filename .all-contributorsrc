@@ -62,6 +62,15 @@
         "bug",
         "ideas"
       ]
+    },
+    {
+      "login": "9swampy",
+      "name": "9swampy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/523054?v=4",
+      "profile": "https://github.com/9swampy",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
