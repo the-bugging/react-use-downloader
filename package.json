@@ -1,6 +1,6 @@
 {
   "name": "react-use-downloader",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Creates a download handler function and gives progress information",
   "author": "Olavo Parno",
   "license": "MIT",
@@ -29,7 +29,7 @@
   "scripts": {
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --coverage --watchAll=false",
-    "prebuild": "rm -rf dist",
+    "prebuild": "node clean.js dist",
     "build": "rollup -c && tsc -d --emitDeclarationOnly --noEmit false --declarationDir dist",
     "start": "rollup -c -w",
     "prepare": "husky install",

@@ -206,8 +206,8 @@ export default function useDownloader(
       }, timeout);
 
       return fetch(downloadUrl, {
-        ...options,
         method: 'GET',
+        ...options,
         signal: fetchController.signal,
       })
         .then(resolverWithProgress)
