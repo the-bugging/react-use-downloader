@@ -72,6 +72,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "davecarlson",
+      "name": "Dave Carlson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/299702?v=4",
+      "profile": "https://github.com/davecarlson",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
