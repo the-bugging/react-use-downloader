@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.8](https://github.com/the-bugging/react-use-downloader/compare/v1.2.6...v1.2.8) (2024-04-17)
+
+
+### Documentation
+
+* update .all-contributorsrc [skip ci] ([6ee52a6](https://github.com/the-bugging/react-use-downloader/commit/6ee52a6393f393d3241d68c7c68c491d6f8bfe65))
+* update README.md [skip ci] ([7b00739](https://github.com/the-bugging/react-use-downloader/commit/7b00739007fdf78b457bc22ed7d21e5e83a5a9a0))
+
 ### [1.2.7](https://github.com/the-bugging/react-use-downloader/compare/v1.2.6...v1.2.7) (2024-04-16)
 
 ### [1.2.6](https://github.com/the-bugging/react-use-downloader/compare/v1.2.5...v1.2.6) (2024-04-09)

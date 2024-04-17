@@ -8,7 +8,7 @@
 
 | Statements                                                                                      | Branches                                                                                 | Functions                                                                                     | Lines                                                                                 |
 | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| ![Statements](https://img.shields.io/badge/statements-87.38%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-72.5%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-81.81%25-yellow.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-88%25-yellow.svg?style=flat&logo=jest) |
+| ![Statements](https://img.shields.io/badge/statements-87.38%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-73.17%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-81.81%25-yellow.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-88%25-yellow.svg?style=flat&logo=jest) |
 
 ## Table of Contents
 
@@ -76,15 +76,15 @@ export default function App() {
 
 - An object with the following keys:
 
-| key          | description                      | arguments                                                 |
-| ------------ | -------------------------------- | --------------------------------------------------------- |
-| size         | size in bytes                    | n/a                                                       |
-| elapsed      | elapsed time in seconds          | n/a                                                       |
-| percentage   | percentage in string             | n/a                                                       |
-| download     | download function handler        | (downloadUrl: string, filename: string, timeout?: number) |
-| cancel       | cancel function handler          | n/a                                                       |
-| error        | error object from the request    | n/a                                                       |
-| isInProgress | boolean denoting download status | n/a                                                       |
+| key          | description                      | arguments                                                                                         |
+| ------------ | -------------------------------- | ------------------------------------------------------------------------------------------------- |
+| size         | size in bytes                    | n/a                                                                                               |
+| elapsed      | elapsed time in seconds          | n/a                                                                                               |
+| percentage   | percentage in string             | n/a                                                                                               |
+| download     | download function handler        | (downloadUrl: string, filename: string, timeout?: number, overrideOptions?: UseDownloaderOptions) |
+| cancel       | cancel function handler          | n/a                                                                                               |
+| error        | error object from the request    | n/a                                                                                               |
+| isInProgress | boolean denoting download status | n/a                                                                                               |
 
 ```jsx
 const { size, elapsed, percentage, download, cancel, error, isInProgress } =
@@ -123,7 +123,10 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://bzbetty.blogspot.com"><img src="https://avatars.githubusercontent.com/u/533131?v=4?s=100" width="100px;" alt="Sam "Betty" McKoy"/><br /><sub><b>Sam "Betty" McKoy</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Abzbetty" title="Bug reports">🐛</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/peranosborn"><img src="https://avatars.githubusercontent.com/u/1318002?v=4?s=100" width="100px;" alt="Peran Osborn"/><br /><sub><b>Peran Osborn</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3Aperanosborn" title="Bug reports">🐛</a> <a href="#ideas-peranosborn" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/MarcosRS"><img src="https://avatars.githubusercontent.com/u/12486814?v=4?s=100" width="100px;" alt="Marcos"/><br /><sub><b>Marcos</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3AMarcosRS" title="Bug reports">🐛</a> <a href="#ideas-MarcosRS" title="Ideas, Planning, & Feedback">🤔</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/9swampy"><img src="https://avatars.githubusercontent.com/u/523054?v=4?s=100" width="100px;" alt="9swampy"/><br /><sub><b>9swampy</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3A9swampy" title="Bug reports">🐛</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author%3A9swampy" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/9swampy"><img src="https://avatars.githubusercontent.com/u/523054?v=4?s=100" width="100px;" alt="9swampy"/><br /><sub><b>9swampy</b></sub></a><br /><a href="https://github.com/the-bugging/react-use-downloader/issues?q=author%3A9swampy" title="Bug reports">🐛</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author=9swampy" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/davecarlson"><img src="https://avatars.githubusercontent.com/u/299702?v=4?s=100" width="100px;" alt="Dave Carlson"/><br /><sub><b>Dave Carlson</b></sub></a><br /><a href="#ideas-davecarlson" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>

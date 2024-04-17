@@ -8,6 +8,11 @@ import {
   UseDownloaderOptions,
 } from './types';
 
+/**
+ * Resolver function to handle the download progress.
+ * @param {ResolverProps} props
+ * @returns {Response}
+ */
 export const resolver =
   ({
     setSize,
@@ -76,6 +81,13 @@ export const resolver =
     return new Response(stream);
   };
 
+/**
+ * jsDownload function to handle the download process.
+ * @param {Blob} data
+ * @param {string} filename
+ * @param {string} mime
+ * @returns {boolean | NodeJS.Timeout}
+ */
 export const jsDownload = (
   data: Blob,
   filename: string,
@@ -118,12 +130,17 @@ export const jsDownload = (
   }, 200);
 };
 
+/**
+ * useDownloader hook to handle the download process.
+ * @param {UseDownloaderOptions} options
+ * @returns {UseDownloader}
+ */
 export default function useDownloader(
   options: UseDownloaderOptions = {}
 ): UseDownloader {
   let debugMode = false;
   try {
-      debugMode = process ? !!process?.env?.REACT_APP_DEBUG_MODE : false;
+    debugMode = process ? !!process?.env?.REACT_APP_DEBUG_MODE : false;
   } catch {
     debugMode = false;
   }
@@ -182,7 +199,7 @@ export default function useDownloader(
   }, [setControllerCallback]);
 
   const handleDownload: DownloadFunction = useCallback(
-    async (downloadUrl, filename, timeout = 0) => {
+    async (downloadUrl, filename, timeout = 0, overrideOptions = {}) => {
       if (isInProgress) return null;
 
       clearAllStateCallback();
@@ -208,6 +225,7 @@ export default function useDownloader(
       return fetch(downloadUrl, {
         method: 'GET',
         ...options,
+        ...overrideOptions,
         signal: fetchController.signal,
       })
         .then(resolverWithProgress)
