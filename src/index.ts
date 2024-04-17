@@ -9,9 +9,9 @@ import {
 } from './types';
 
 /**
- * 
- * @param param0 
- * @returns 
+ * Resolver function to handle the download progress.
+ * @param {ResolverProps} props
+ * @returns {Response}
  */
 export const resolver =
   ({
@@ -20,73 +20,73 @@ export const resolver =
     setPercentageCallback,
     setErrorCallback,
   }: ResolverProps) =>
-    (response: Response): Response => {
-      if (!response.ok) {
-        throw Error(`${response.status} ${response.type} ${response.statusText}`);
-      }
+  (response: Response): Response => {
+    if (!response.ok) {
+      throw Error(`${response.status} ${response.type} ${response.statusText}`);
+    }
 
-      if (!response.body) {
-        throw Error('ReadableStream not yet supported in this browser.');
-      }
+    if (!response.body) {
+      throw Error('ReadableStream not yet supported in this browser.');
+    }
 
-      const responseBody = response.body;
+    const responseBody = response.body;
 
-      const contentEncoding = response.headers.get('content-encoding');
-      const contentLength = response.headers.get(
-        contentEncoding ? 'x-file-size' : 'content-length'
-      );
+    const contentEncoding = response.headers.get('content-encoding');
+    const contentLength = response.headers.get(
+      contentEncoding ? 'x-file-size' : 'content-length'
+    );
 
-      const total = parseInt(contentLength || '0', 10);
+    const total = parseInt(contentLength || '0', 10);
 
-      setSize(() => total);
+    setSize(() => total);
 
-      let loaded = 0;
+    let loaded = 0;
 
-      const stream = new ReadableStream<Uint8Array>({
-        start(controller) {
-          setControllerCallback(controller);
+    const stream = new ReadableStream<Uint8Array>({
+      start(controller) {
+        setControllerCallback(controller);
 
-          const reader = responseBody.getReader();
+        const reader = responseBody.getReader();
 
-          async function read(): Promise<void> {
-            return reader
-              .read()
-              .then(({ done, value }) => {
-                if (done) {
-                  return controller.close();
-                }
+        async function read(): Promise<void> {
+          return reader
+            .read()
+            .then(({ done, value }) => {
+              if (done) {
+                return controller.close();
+              }
 
-                loaded += value?.byteLength || 0;
+              loaded += value?.byteLength || 0;
 
-                if (value) {
-                  controller.enqueue(value);
-                }
+              if (value) {
+                controller.enqueue(value);
+              }
 
-                setPercentageCallback({ loaded, total });
+              setPercentageCallback({ loaded, total });
 
-                return read();
-              })
-              .catch((error: Error) => {
-                setErrorCallback(error);
-                reader.cancel('Cancelled');
+              return read();
+            })
+            .catch((error: Error) => {
+              setErrorCallback(error);
+              reader.cancel('Cancelled');
 
-                return controller.error(error);
-              });
-          }
+              return controller.error(error);
+            });
+        }
 
-          return read();
-        },
-      });
+        return read();
+      },
+    });
 
-      return new Response(stream);
-    };
+    return new Response(stream);
+  };
 
 /**
- * 
- * @param {Blob} data 
- * @param {string} filename 
- * @param {string} mime 
- * @returns 
+ * jsDownload function to handle the download process.
+ * @param {Blob} data
+ * @param {string} filename
+ * @param {string} mime
+ * @returns {boolean | NodeJS.Timeout}
  */
 export const jsDownload = (
   data: Blob,
@@ -131,9 +131,9 @@ export const jsDownload = (
 };
 
 /**
- * Initialise a new instance of downloader.
- * @param {UseDownloaderOptions} options 
- * @returns UseDownloader
+ * useDownloader hook to handle the download process.
+ * @param {UseDownloaderOptions} options
+ * @returns {UseDownloader}
  */
 export default function useDownloader(
   options: UseDownloaderOptions = {}

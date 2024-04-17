@@ -4,6 +4,11 @@ export type ErrorMessage = {
   errorMessage: string;
 } | null;
 
+/** useDownloader options for fetch call
+ * See fetch RequestInit for more details
+ */
+export type UseDownloaderOptions = RequestInit;
+
 /**
  * Initiate the download of the specified asset from the specified url. Optionally supply timeout and overrideOptions.
  * @example await download('https://example.com/file.zip', 'file.zip')
@@ -80,8 +85,3 @@ interface CustomNavigator extends Navigator {
 export interface WindowDownloaderEmbedded extends Window {
   navigator: CustomNavigator;
 }
-
-/** useDownloader options for fetch call
- * See fetch RequestInit for more details
- */
-export type UseDownloaderOptions = RequestInit;
