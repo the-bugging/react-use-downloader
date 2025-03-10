@@ -1,7 +1,5 @@
 {
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "imageSize": 100,
   "commit": false,
   "contributors": [
@@ -10,77 +8,63 @@
       "name": "Eric Semeniuc",
       "avatar_url": "https://avatars.githubusercontent.com/u/3838856?v=4",
       "profile": "https://semeniuc.ml/",
-      "contributions": [
-        "ideas"
-      ]
+      "contributions": ["ideas"]
     },
     {
       "login": "davdi1337",
       "name": "davdi1337",
       "avatar_url": "https://avatars.githubusercontent.com/u/66253422?v=4",
       "profile": "https://github.com/davdi1337",
-      "contributions": [
-        "code",
-        "bug"
-      ]
+      "contributions": ["code", "bug"]
     },
     {
       "login": "mastepanoski",
       "name": "Mauro Stepanoski",
       "avatar_url": "https://avatars.githubusercontent.com/u/7851219?v=4",
       "profile": "https://heliusit.net",
-      "contributions": [
-        "ideas",
-        "code"
-      ]
+      "contributions": ["ideas", "code"]
     },
     {
       "login": "bzbetty",
       "name": "Sam \"Betty\" McKoy",
       "avatar_url": "https://avatars.githubusercontent.com/u/533131?v=4",
       "profile": "http://bzbetty.blogspot.com",
-      "contributions": [
-        "bug"
-      ]
+      "contributions": ["bug"]
     },
     {
       "login": "peranosborn",
       "name": "Peran Osborn",
       "avatar_url": "https://avatars.githubusercontent.com/u/1318002?v=4",
       "profile": "https://github.com/peranosborn",
-      "contributions": [
-        "bug",
-        "ideas"
-      ]
+      "contributions": ["bug", "ideas"]
     },
     {
       "login": "MarcosRS",
       "name": "Marcos",
       "avatar_url": "https://avatars.githubusercontent.com/u/12486814?v=4",
       "profile": "https://github.com/MarcosRS",
-      "contributions": [
-        "bug",
-        "ideas"
-      ]
+      "contributions": ["bug", "ideas"]
     },
     {
       "login": "9swampy",
       "name": "9swampy",
       "avatar_url": "https://avatars.githubusercontent.com/u/523054?v=4",
       "profile": "https://github.com/9swampy",
-      "contributions": [
-        "bug",
-        "code"
-      ]
+      "contributions": ["bug", "code"]
     },
     {
       "login": "davecarlson",
       "name": "Dave Carlson",
       "avatar_url": "https://avatars.githubusercontent.com/u/299702?v=4",
       "profile": "https://github.com/davecarlson",
-      "contributions": [
-        "ideas"
-      ]
+      "contributions": ["ideas"]
+    },
+    {
+      "login": "ruru-ink",
+      "name": "Phil Taylor",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1455736?v=4",
+      "profile": "http://moa-crypto.com/",
+      "contributions": ["maintenance"]
     }
   ],
   "contributorsPerLine": 7,
@@ -92,3 +76,4 @@
   "commitConvention": "angular",
   "commitType": "docs"
 }
+
