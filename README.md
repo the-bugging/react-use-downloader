@@ -128,6 +128,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/davecarlson"><img src="https://avatars.githubusercontent.com/u/299702?v=4?s=100" width="100px;" alt="Dave Carlson"/><br /><sub><b>Dave Carlson</b></sub></a><br /><a href="#ideas-davecarlson" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://moa-crypto.com/"><img src="https://avatars.githubusercontent.com/u/1455736?v=4?s=100" width="100px;" alt="Phil Taylor"/><br /><sub><b>Phil Taylor</b></sub></a><br /><a href="#maintenance-ruru-ink" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MarcRoemmelt"><img src="https://avatars.githubusercontent.com/u/36316710?v=4?s=100" width="100px;" alt="Marc Römmelt"/><br /><sub><b>Marc Römmelt</b></sub></a><br /><a href="#ideas-MarcRoemmelt" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/the-bugging/react-use-downloader/commits?author=MarcRoemmelt" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/nik-webdevelop"><img src="https://avatars.githubusercontent.com/u/10981702?v=4?s=100" width="100px;" alt="nik-webdevelop"/><br /><sub><b>nik-webdevelop</b></sub></a><br /><a href="#ideas-nik-webdevelop" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>

@@ -65,6 +65,20 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/1455736?v=4",
       "profile": "http://moa-crypto.com/",
       "contributions": ["maintenance"]
+    },
+    {
+      "login": "MarcRoemmelt",
+      "name": "Marc Römmelt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36316710?v=4",
+      "profile": "https://github.com/MarcRoemmelt",
+      "contributions": ["ideas", "code"]
+    },
+    {
+      "login": "nik-webdevelop",
+      "name": "nik-webdevelop",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10981702?v=4",
+      "profile": "https://github.com/nik-webdevelop",
+      "contributions": ["ideas"]
     }
   ],
   "contributorsPerLine": 7,
