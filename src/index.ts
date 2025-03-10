@@ -98,11 +98,13 @@ export const jsDownload = (
     type: mime || 'application/octet-stream',
   });
 
+  const currentWindow = window as unknown as WindowDownloaderEmbedded;
+
   if (
-    typeof (window as unknown as WindowDownloaderEmbedded).navigator
+    typeof currentWindow.navigator
       .msSaveBlob !== 'undefined'
   ) {
-    return (window as unknown as WindowDownloaderEmbedded).navigator.msSaveBlob(
+    return currentWindow.navigator.msSaveBlob(
       blob,
       filename
     );
@@ -168,8 +170,8 @@ export default function useDownloader(
       'The user aborted a request.': 'Download timed out',
     };
     setError(() => {
-      const resolvedError = errorMap[err.message]
-        ? errorMap[err.message]
+      const resolvedError = errorMap[err.message as keyof typeof errorMap]
+        ? errorMap[err.message as keyof typeof errorMap]
         : err.message;
 
       return { errorMessage: resolvedError };
