@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.9](https://github.com/the-bugging/react-use-downloader/compare/v1.2.8...v1.2.9) (2025-03-10)
+
 ### [1.2.8](https://github.com/the-bugging/react-use-downloader/compare/v1.2.6...v1.2.8) (2024-04-17)
 
 
