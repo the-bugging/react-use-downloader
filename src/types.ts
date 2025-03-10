@@ -79,9 +79,16 @@ export interface ResolverProps {
 }
 
 interface CustomNavigator extends Navigator {
-  msSaveBlob: (blob?: Blob, filename?: string) => boolean | NodeJS.Timeout;
+  msSaveBlob?: (blob?: Blob, filename?: string) => boolean | NodeJS.Timeout;
+}
+
+interface CustomURL extends URL {
+  createObjectURL: (blob: Blob) => string | null;
+  revokeObjectURL: (url: string) => void | null;
 }
 
 export interface WindowDownloaderEmbedded extends Window {
   navigator: CustomNavigator;
+  URL?: CustomURL
+  webkitURL?: CustomURL
 }

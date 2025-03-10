@@ -3,7 +3,7 @@
 import {
   ReadableStream,
   ReadableStreamDefaultReadResult,
-} from 'web-streams-polyfill/ponyfill';
+} from 'web-streams-polyfill';
 import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
 import { WindowDownloaderEmbedded } from '../types';
@@ -21,7 +21,8 @@ const expectedKeys = [
 beforeAll(() => {
   global.window.fetch = fetch as Extract<WindowOrWorkerGlobalScope, 'fetch'>;
   global.Response = Response;
-  global.ReadableStream = ReadableStream;
+  global.ReadableStream =
+    ReadableStream as unknown as typeof global.ReadableStream;
 });
 
 describe('useDownloader successes', () => {
@@ -240,10 +241,14 @@ describe('useDownloader failures', () => {
 
   describe('Tests without msSaveBlob', () => {
     beforeAll(() => {
-      (window as unknown as WindowDownloaderEmbedded).navigator.msSaveBlob =
-        undefined;
-      window.URL.createObjectURL = () => null;
-      window.URL.revokeObjectURL = () => null;
+      const currentWindow = window as unknown as WindowDownloaderEmbedded;
+
+      currentWindow.navigator.msSaveBlob = undefined;
+
+      if (currentWindow.URL) {
+        currentWindow.URL.createObjectURL = () => null;
+        currentWindow.URL.revokeObjectURL = () => null;
+      }
     });
 
     it('should test with URL and being revoked', async () => {
@@ -262,17 +267,22 @@ describe('useDownloader failures', () => {
     });
 
     it('should test with URL via webkitURL', () => {
-      window.URL = undefined;
-      window.webkitURL.createObjectURL = () => null;
+      const currentWindow = window as unknown as WindowDownloaderEmbedded;
 
-      const createObjectWebkitURLSpy = jest.spyOn(
-        window.webkitURL,
-        'createObjectURL'
-      );
+      currentWindow.URL = undefined;
 
-      jsDownload(new Blob(['abcde']), 'test');
+      if (currentWindow.webkitURL) {
+        currentWindow.webkitURL.createObjectURL = () => null;
 
-      expect(createObjectWebkitURLSpy).toHaveBeenCalled();
+        const createObjectWebkitURLSpy = jest.spyOn(
+          window.webkitURL,
+          'createObjectURL'
+        );
+
+        jsDownload(new Blob(['abcde']), 'test');
+
+        expect(createObjectWebkitURLSpy).toHaveBeenCalled();
+      }
     });
   });
 });
