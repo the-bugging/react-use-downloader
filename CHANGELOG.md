@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.10](https://github.com/the-bugging/react-use-downloader/compare/v1.2.9...v1.2.10) (2025-03-10)
+
+
+### Bug Fixes
+
+* improve error handling in resolver with console logging ([45ef270](https://github.com/the-bugging/react-use-downloader/commit/45ef27044d5e1606f64258454d7e23368527e48e))
+
+
+### Documentation
+
+* add nik-webdevelop as a contributor for ideas ([9d57115](https://github.com/the-bugging/react-use-downloader/commit/9d57115c7b3200ba231815e7643120592057c5f3))
+* update .all-contributorsrc [skip ci] ([0b98d10](https://github.com/the-bugging/react-use-downloader/commit/0b98d1056323eb299e94fd1fba2f6c0cffacb3d3))
+* update README.md [skip ci] ([5e2dc37](https://github.com/the-bugging/react-use-downloader/commit/5e2dc373bc195202cff08f2050886be6031dbf3f))
+
 ### [1.2.9](https://github.com/the-bugging/react-use-downloader/compare/v1.2.8...v1.2.9) (2025-03-10)
 
 ### [1.2.8](https://github.com/the-bugging/react-use-downloader/compare/v1.2.6...v1.2.8) (2024-04-17)
