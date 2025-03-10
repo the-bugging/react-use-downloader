@@ -22,7 +22,9 @@ export const resolver =
   }: ResolverProps) =>
   (response: Response): Response => {
     if (!response.ok) {
-      throw Error(`${response.status} ${response.type} ${response.statusText}`);
+      console.error(`${response.status} ${response.type} ${response.statusText}`);
+
+      throw response;
     }
 
     if (!response.body) {
@@ -240,23 +242,37 @@ export default function useDownloader(
 
           return clearInterval(intervalId);
         })
-        .catch((err) => {
+        .catch(async (error) => {
           clearAllStateCallback();
-          setError((prevValue) => {
-            const { message } = err;
 
-            if (message !== 'Failed to fetch') {
-              return {
-                errorMessage: err.message,
-              };
+          
+          const errorMessage = await (async () => {
+            if (error instanceof Response) {
+              const contentType = error.headers.get("Content-Type") || "";
+              const isJson = contentType.includes("application/json");
+        
+              const errorBody = isJson
+                ? await error.json().catch(() => null)
+                : await error.text().catch(() => null);
+        
+              return [
+                `${error.status} - ${error.statusText}`,
+                errorBody?.error,
+                errorBody?.reason || (typeof errorBody === "string" ? errorBody : null),
+              ]
+                .filter(Boolean)
+                .join(": ");
             }
-
-            return prevValue;
-          });
-
+        
+            return error?.message || "An unknown error occurred.";
+          })();
+        
+          setError({ errorMessage });
+        
           clearTimeout(timeoutId);
-          return clearInterval(intervalId);
+          clearInterval(intervalId);
         });
+        
     },
     [
       isInProgress,

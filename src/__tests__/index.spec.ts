@@ -89,6 +89,10 @@ describe('useDownloader successes', () => {
 });
 
 describe('useDownloader failures', () => {
+  beforeEach(() => {
+    console.error = jest.fn();
+  });
+
   it('should be defined', () => {
     const { result } = renderHook(() => useDownloader());
     expect(result).toBeDefined();
@@ -200,11 +204,24 @@ describe('useDownloader failures', () => {
     expect(result.current.error).toEqual({ errorMessage: 'Custom error!' });
   });
 
-  it('should start download with error Failed to fetch', async () => {
+  it('should start download with response.ok false and an error from the response', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
     global.window.fetch = jest.fn(() =>
-      Promise.reject(new Error('Failed to fetch'))
+      Promise.resolve(
+        new Response(
+          JSON.stringify({
+            error: 'File download not allowed',
+            reason:
+              'User must complete verification before accessing this file.',
+          }),
+          {
+            status: 403,
+            statusText: 'Forbidden',
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      )
     );
 
     expect(result.current.error).toBeNull();
@@ -215,7 +232,12 @@ describe('useDownloader failures', () => {
 
     await waitForNextUpdate();
 
-    expect(result.current.error).toBeNull();
+    expect(console.error).toHaveBeenCalledWith('403 default Forbidden');
+
+    expect(result.current.error).toEqual({
+      errorMessage:
+        '403 - Forbidden: File download not allowed: User must complete verification before accessing this file.',
+    });
   });
 
   describe('Tests with msSaveBlob', () => {
