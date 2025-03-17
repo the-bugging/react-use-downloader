@@ -2,6 +2,7 @@ import { SetStateAction } from 'react';
 
 export type ErrorMessage = {
   errorMessage: string;
+  errorResponse?: Response;
 } | null;
 
 /** useDownloader options for fetch call
@@ -89,6 +90,6 @@ interface CustomURL extends URL {
 
 export interface WindowDownloaderEmbedded extends Window {
   navigator: CustomNavigator;
-  URL?: CustomURL
-  webkitURL?: CustomURL
+  URL?: CustomURL;
+  webkitURL?: CustomURL;
 }

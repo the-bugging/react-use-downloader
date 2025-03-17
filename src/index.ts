@@ -22,7 +22,9 @@ export const resolver =
   }: ResolverProps) =>
   (response: Response): Response => {
     if (!response.ok) {
-      console.error(`${response.status} ${response.type} ${response.statusText}`);
+      console.error(
+        `${response.status} ${response.type} ${response.statusText}`
+      );
 
       throw response;
     }
@@ -102,14 +104,8 @@ export const jsDownload = (
 
   const currentWindow = window as unknown as WindowDownloaderEmbedded;
 
-  if (
-    typeof currentWindow.navigator
-      .msSaveBlob !== 'undefined'
-  ) {
-    return currentWindow.navigator.msSaveBlob(
-      blob,
-      filename
-    );
+  if (typeof currentWindow.navigator.msSaveBlob !== 'undefined') {
+    return currentWindow.navigator.msSaveBlob(blob, filename);
   }
 
   const blobURL =
@@ -244,35 +240,39 @@ export default function useDownloader(
         })
         .catch(async (error) => {
           clearAllStateCallback();
+          let errorResponse = null;
 
-          
           const errorMessage = await (async () => {
             if (error instanceof Response) {
-              const contentType = error.headers.get("Content-Type") || "";
-              const isJson = contentType.includes("application/json");
-        
+              errorResponse = error.clone();
+
+              const contentType = error.headers.get('Content-Type') || '';
+              const isJson = contentType.includes('application/json');
+
               const errorBody = isJson
                 ? await error.json().catch(() => null)
                 : await error.text().catch(() => null);
-        
+
               return [
                 `${error.status} - ${error.statusText}`,
                 errorBody?.error,
-                errorBody?.reason || (typeof errorBody === "string" ? errorBody : null),
+                errorBody?.reason ||
+                  (typeof errorBody === 'string' ? errorBody : null),
               ]
                 .filter(Boolean)
-                .join(": ");
+                .join(': ');
             }
-        
-            return error?.message || "An unknown error occurred.";
+
+            return error?.message || 'An unknown error occurred.';
           })();
-        
-          setError({ errorMessage });
-        
+
+          const downloaderError: ErrorMessage = { errorMessage };
+          if (errorResponse) downloaderError.errorResponse = errorResponse;
+          setError(downloaderError);
+
           clearTimeout(timeoutId);
           clearInterval(intervalId);
         });
-        
     },
     [
       isInProgress,

@@ -8,7 +8,7 @@
 
 | Statements                                                                                      | Branches                                                                                 | Functions                                                                                     | Lines                                                                                 |
 | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| ![Statements](https://img.shields.io/badge/statements-86.44%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-68.62%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-77.14%25-red.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-86.91%25-yellow.svg?style=flat&logo=jest) |
+| ![Statements](https://img.shields.io/badge/statements-86.99%25-yellow.svg?style=flat&logo=jest) | ![Branches](https://img.shields.io/badge/branches-69.81%25-red.svg?style=flat&logo=jest) | ![Functions](https://img.shields.io/badge/functions-77.14%25-red.svg?style=flat&logo=jest) | ![Lines](https://img.shields.io/badge/lines-87.38%25-yellow.svg?style=flat&logo=jest) |
 
 ## Table of Contents
 
