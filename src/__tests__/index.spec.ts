@@ -207,22 +207,20 @@ describe('useDownloader failures', () => {
   it('should start download with response.ok false and an error from the response', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() =>
-      Promise.resolve(
-        new Response(
-          JSON.stringify({
-            error: 'File download not allowed',
-            reason:
-              'User must complete verification before accessing this file.',
-          }),
-          {
-            status: 403,
-            statusText: 'Forbidden',
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-      )
+    const errorResponse = new Response(
+      JSON.stringify({
+        error: 'File download not allowed',
+        reason: 'User must complete verification before accessing this file.',
+      }),
+      {
+        status: 403,
+        statusText: 'Forbidden',
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
+    const resultErrorResponse = errorResponse.clone();
+
+    global.window.fetch = jest.fn(() => Promise.resolve(errorResponse));
 
     expect(result.current.error).toBeNull();
 
@@ -237,6 +235,7 @@ describe('useDownloader failures', () => {
     expect(result.current.error).toEqual({
       errorMessage:
         '403 - Forbidden: File download not allowed: User must complete verification before accessing this file.',
+      errorResponse: resultErrorResponse,
     });
   });
 
