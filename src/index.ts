@@ -148,7 +148,7 @@ export default function useDownloader(
   const [elapsed, setElapsed] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [size, setSize] = useState(0);
-  const [error, setError] = useState<ErrorMessage>(null);
+  const [internalError, setInternalError] = useState<ErrorMessage>(null);
   const [isInProgress, setIsInProgress] = useState(false);
 
   const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(
@@ -167,7 +167,7 @@ export default function useDownloader(
         'Download canceled',
       'The user aborted a request.': 'Download timed out',
     };
-    setError(() => {
+    setInternalError(() => {
       const resolvedError = errorMap[err.message as keyof typeof errorMap]
         ? errorMap[err.message as keyof typeof errorMap]
         : err.message;
@@ -203,7 +203,7 @@ export default function useDownloader(
       if (isInProgress) return null;
 
       clearAllStateCallback();
-      setError(() => null);
+      setInternalError(() => null);
       setIsInProgress(() => true);
 
       const intervalId = setInterval(
@@ -268,7 +268,7 @@ export default function useDownloader(
 
           const downloaderError: ErrorMessage = { errorMessage };
           if (errorResponse) downloaderError.errorResponse = errorResponse;
-          setError(downloaderError);
+          setInternalError(downloaderError);
 
           clearTimeout(timeoutId);
           clearInterval(intervalId);
@@ -285,24 +285,30 @@ export default function useDownloader(
     ]
   );
 
-  return useMemo(
+  const downloadState = useMemo(
     () => ({
       elapsed,
       percentage,
       size,
-      download: handleDownload,
-      cancel: closeControllerCallback,
-      error,
+      error: internalError,
       isInProgress,
     }),
-    [
-      elapsed,
-      percentage,
-      size,
-      handleDownload,
-      closeControllerCallback,
-      error,
-      isInProgress,
-    ]
+    [elapsed, percentage, size, internalError, isInProgress]
+  );
+
+  const downloadActions = useMemo(
+    () => ({
+      download: handleDownload,
+      cancel: closeControllerCallback,
+    }),
+    [handleDownload, closeControllerCallback]
+  );
+
+  return useMemo(
+    () => ({
+      ...downloadState,
+      ...downloadActions,
+    }),
+    [downloadState, downloadActions]
   );
 }
