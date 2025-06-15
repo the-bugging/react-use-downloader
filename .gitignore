@@ -9,6 +9,9 @@ build
 dist
 .rpt2_cache
 
+# Editor directories and files
+.idea
+
 # misc
 .DS_Store
 .env

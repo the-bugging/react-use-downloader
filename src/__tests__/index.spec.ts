@@ -8,6 +8,11 @@ import { renderHook, act } from '@testing-library/react-hooks';
 import useDownloader, { jsDownload } from '../index';
 import { WindowDownloaderEmbedded } from '../types';
 
+// Helper noop function to avoid linter error (intentionally empty for Promise executor and catch)
+function noop() {
+  /* intentionally empty for Promise executor */
+}
+
 const expectedKeys = [
   'elapsed',
   'percentage',
@@ -207,22 +212,20 @@ describe('useDownloader failures', () => {
   it('should start download with response.ok false and an error from the response', async () => {
     const { result, waitForNextUpdate } = renderHook(() => useDownloader());
 
-    global.window.fetch = jest.fn(() =>
-      Promise.resolve(
-        new Response(
-          JSON.stringify({
-            error: 'File download not allowed',
-            reason:
-              'User must complete verification before accessing this file.',
-          }),
-          {
-            status: 403,
-            statusText: 'Forbidden',
-            headers: { 'Content-Type': 'application/json' },
-          }
-        )
-      )
+    const errorResponse = new Response(
+      JSON.stringify({
+        error: 'File download not allowed',
+        reason: 'User must complete verification before accessing this file.',
+      }),
+      {
+        status: 403,
+        statusText: 'Forbidden',
+        headers: { 'Content-Type': 'application/json' },
+      }
     );
+    const resultErrorResponse = errorResponse.clone();
+
+    global.window.fetch = jest.fn(() => Promise.resolve(errorResponse));
 
     expect(result.current.error).toBeNull();
 
@@ -237,6 +240,7 @@ describe('useDownloader failures', () => {
     expect(result.current.error).toEqual({
       errorMessage:
         '403 - Forbidden: File download not allowed: User must complete verification before accessing this file.',
+      errorResponse: resultErrorResponse,
     });
   });
 
@@ -306,5 +310,77 @@ describe('useDownloader failures', () => {
         expect(createObjectWebkitURLSpy).toHaveBeenCalled();
       }
     });
+  });
+});
+
+describe('useDownloader cancel and error mapping', () => {
+  it('should cancel an in-progress download', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useDownloader());
+
+    // Mock fetch to return a stream that never ends
+    global.window.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        headers: {
+          get: () => null,
+        },
+        body: {
+          getReader: () => ({
+            read: () => new Promise(noop), // never resolves, avoids linter error
+            cancel: jest.fn(),
+          }),
+        },
+        blob: () => Promise.resolve(new Blob()),
+      })
+    ) as any;
+
+    act(() => {
+      result.current.download('https://url.com', 'filename');
+    });
+
+    expect(result.current.isInProgress).toBeTruthy();
+
+    // Call cancel
+    act(() => {
+      result.current.cancel();
+    });
+
+    // Wait for state update (should not throw if no update)
+    await waitForNextUpdate({ timeout: 100 }).catch(noop);
+    expect(result.current.isInProgress).toBeFalsy();
+  });
+
+  it('should map known error messages to user-friendly errors', async () => {
+    const { result, waitForNextUpdate } = renderHook(() => useDownloader());
+
+    // Mock fetch to return a stream that errors
+    global.window.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        headers: {
+          get: () => null,
+        },
+        body: {
+          getReader: () => ({
+            read: () =>
+              Promise.reject(
+                new Error(
+                  "Failed to execute 'enqueue' on 'ReadableStreamDefaultController': Cannot enqueue a chunk into an errored readable stream"
+                )
+              ),
+            cancel: jest.fn(),
+          }),
+        },
+        blob: () => Promise.resolve(new Blob()),
+      })
+    ) as any;
+
+    act(() => {
+      result.current.download('https://url.com', 'filename');
+    });
+
+    // Wait for state update
+    await waitForNextUpdate({ timeout: 100 }).catch(noop);
+    expect(result.current.error).toEqual({ errorMessage: 'Download canceled' });
   });
 });

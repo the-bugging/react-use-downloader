@@ -22,7 +22,9 @@ export const resolver =
   }: ResolverProps) =>
   (response: Response): Response => {
     if (!response.ok) {
-      console.error(`${response.status} ${response.type} ${response.statusText}`);
+      console.error(
+        `${response.status} ${response.type} ${response.statusText}`
+      );
 
       throw response;
     }
@@ -102,14 +104,8 @@ export const jsDownload = (
 
   const currentWindow = window as unknown as WindowDownloaderEmbedded;
 
-  if (
-    typeof currentWindow.navigator
-      .msSaveBlob !== 'undefined'
-  ) {
-    return currentWindow.navigator.msSaveBlob(
-      blob,
-      filename
-    );
+  if (typeof currentWindow.navigator.msSaveBlob !== 'undefined') {
+    return currentWindow.navigator.msSaveBlob(blob, filename);
   }
 
   const blobURL =
@@ -152,7 +148,7 @@ export default function useDownloader(
   const [elapsed, setElapsed] = useState(0);
   const [percentage, setPercentage] = useState(0);
   const [size, setSize] = useState(0);
-  const [error, setError] = useState<ErrorMessage>(null);
+  const [internalError, setInternalError] = useState<ErrorMessage>(null);
   const [isInProgress, setIsInProgress] = useState(false);
 
   const controllerRef = useRef<null | ReadableStreamController<Uint8Array>>(
@@ -171,7 +167,7 @@ export default function useDownloader(
         'Download canceled',
       'The user aborted a request.': 'Download timed out',
     };
-    setError(() => {
+    setInternalError(() => {
       const resolvedError = errorMap[err.message as keyof typeof errorMap]
         ? errorMap[err.message as keyof typeof errorMap]
         : err.message;
@@ -207,7 +203,7 @@ export default function useDownloader(
       if (isInProgress) return null;
 
       clearAllStateCallback();
-      setError(() => null);
+      setInternalError(() => null);
       setIsInProgress(() => true);
 
       const intervalId = setInterval(
@@ -244,35 +240,39 @@ export default function useDownloader(
         })
         .catch(async (error) => {
           clearAllStateCallback();
+          let errorResponse = null;
 
-          
           const errorMessage = await (async () => {
             if (error instanceof Response) {
-              const contentType = error.headers.get("Content-Type") || "";
-              const isJson = contentType.includes("application/json");
-        
+              errorResponse = error.clone();
+
+              const contentType = error.headers.get('Content-Type') || '';
+              const isJson = contentType.includes('application/json');
+
               const errorBody = isJson
                 ? await error.json().catch(() => null)
                 : await error.text().catch(() => null);
-        
+
               return [
                 `${error.status} - ${error.statusText}`,
                 errorBody?.error,
-                errorBody?.reason || (typeof errorBody === "string" ? errorBody : null),
+                errorBody?.reason ||
+                  (typeof errorBody === 'string' ? errorBody : null),
               ]
                 .filter(Boolean)
-                .join(": ");
+                .join(': ');
             }
-        
-            return error?.message || "An unknown error occurred.";
+
+            return error?.message || 'An unknown error occurred.';
           })();
-        
-          setError({ errorMessage });
-        
+
+          const downloaderError: ErrorMessage = { errorMessage };
+          if (errorResponse) downloaderError.errorResponse = errorResponse;
+          setInternalError(downloaderError);
+
           clearTimeout(timeoutId);
           clearInterval(intervalId);
         });
-        
     },
     [
       isInProgress,
@@ -285,24 +285,30 @@ export default function useDownloader(
     ]
   );
 
-  return useMemo(
+  const downloadState = useMemo(
     () => ({
       elapsed,
       percentage,
       size,
-      download: handleDownload,
-      cancel: closeControllerCallback,
-      error,
+      error: internalError,
       isInProgress,
     }),
-    [
-      elapsed,
-      percentage,
-      size,
-      handleDownload,
-      closeControllerCallback,
-      error,
-      isInProgress,
-    ]
+    [elapsed, percentage, size, internalError, isInProgress]
+  );
+
+  const downloadActions = useMemo(
+    () => ({
+      download: handleDownload,
+      cancel: closeControllerCallback,
+    }),
+    [handleDownload, closeControllerCallback]
+  );
+
+  return useMemo(
+    () => ({
+      ...downloadState,
+      ...downloadActions,
+    }),
+    [downloadState, downloadActions]
   );
 }
